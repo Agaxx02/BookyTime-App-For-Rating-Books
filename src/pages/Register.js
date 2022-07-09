@@ -1,9 +1,22 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+
+const navigate = useNavigate()
+
+export const handleErrors = async (res) => {
+  if(!res.ok) {
+    const { message } = await res.json();
+    throw Error(message)
+  } 
+  return res.json()
+};
 
 export default function Register() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [error, setError] = useState('')
 
 
     const register = (e) => {
@@ -19,11 +32,19 @@ export default function Register() {
               confirmPassword
             })
         })
+        .then(handleErrors)
+        .then(() => {
+          navigate('/dashboard')
+        })
+        .catch((error) => {
+          setError(error.message)
+        })
     }
 
   return (
     <div>
         <h1>Register</h1>
+        {error && <span className='errorMessage'>{error}</span>}
         <form onSubmit={register}>
             <label htmlFor='username'>Username</label>
             <input id="username" onChange={(e) => setUsername(e.target.value)}></input>
