@@ -4,18 +4,19 @@ import { CredentialsContext } from '../App'
 export default function Dashboard() {
     const [credentials, setCredentials] = useContext(CredentialsContext)
     const [isbn, setIsbn] = useState('')
+   
 
     const search = async (e) => {
         e.preventDefault();
-       const response =  fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`, {
-            method: 'GET',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-         })
-        console.log(response.json)
-        };
+        await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`)}`)
+                    .then(response => {
+                      if (response.ok) return response.json()
+                      throw new Error('Network response was not ok.')
+                    })
+                    .then(data => {
+                        console.log(data.contents)});
+                    }
+     
   return (
     <div>
         <h1>Welcome {credentials && credentials.username}</h1>
@@ -24,6 +25,7 @@ export default function Dashboard() {
             <input id='ISBNNumber' onChange={(e) => setIsbn(e.target.value)}></input>
             <button type='submit'>Search</button>
         </form>
+        <div></div>
     </div>
   )
 }
