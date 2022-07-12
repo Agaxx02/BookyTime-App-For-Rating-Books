@@ -14,9 +14,10 @@ export default function Dashboard() {
                       throw new Error('Network response was not ok.')
                     })
                     .then(data => {
-                        console.log(data.contents)});
-                    }
-     
+                      let obj = data.contents
+                      obj = JSON.parse(obj)
+                      console.log(obj[`ISBN:${isbn}`], typeof obj)
+                    })}
   return (
     <div>
         <h1>Welcome {credentials && credentials.username}</h1>
