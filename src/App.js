@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Welcome from './pages/Welcome';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Library from './pages/Library';
 import {
   BrowserRouter,
   Routes,
@@ -24,6 +25,7 @@ function App() {
         <Route path='register' element={<Register />} />
         <Route path='login' element={<Login />} />
         <Route path='dashboard' element={<Dashboard />} />
+        <Route path='library' element={<Library />} />
       </Routes>
       </BrowserRouter>
       </CredentialsContext.Provider>

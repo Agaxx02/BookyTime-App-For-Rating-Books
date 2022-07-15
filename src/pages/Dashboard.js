@@ -1,15 +1,20 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CredentialsContext } from '../App'
 import { handleErrors } from './Register'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function Dashboard() {
     const [credentials, setCredentials] = useContext(CredentialsContext)
     const [isbn, setIsbn] = useState('')
     const[book, setBook] = useState(null)
+    const[books, setBooks] = useState([])
     const [error, setError] = useState('')
+    const navigate = useNavigate()
    
 
     const search = async (e) => {
+        setError('')
         e.preventDefault();
         await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`)}`)
                     .then(handleErrors)
@@ -21,27 +26,47 @@ export default function Dashboard() {
                         'numOfPages': obj[`ISBN:${isbn}`]['number_of_pages'],
                         'authors': obj[`ISBN:${isbn}`]['authors'][0]['name']
                       })
+                    })
                       .catch((error) => {
                       setError(error.message)
                       }) 
-                    })}
+                    }
 
+                    const persist = (newBooks) => {
+                      fetch(`http://localhost:4000/books`, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Basic ${credentials.username}:${credentials.password}`,
+                        },
+                        body: JSON.stringify(newBooks),
+                      })
+                    };
+                  
+                     useEffect(() => {
+                      fetch(`http://localhost:4000/books`, {
+                        method: "GET",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Basic ${credentials.username}:${credentials.password}`,
+                        },
+                      })
+                        .then((response) => response.json())
+                        .then((books) => setBooks(books));
+                    }, []);
     const addBook = async (e) => {
+      if(!book) return
       e.preventDefault();
-      fetch(`http://localhost:8000/addBook`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-             
-             book
-            })
-        })
-        .catch((error) => {
-          setError(error.message)
-        })
+      const newBook = {id:uuidv4(), title: book.title, numOfPages: book.numOfPages, authors: book.authors}
+      const newBooks = [...books, newBook]
+      setBooks(newBooks);
+      persist(books)
     }
+    const library = (e) => {
+      e.preventDefault();
+      navigate('/library')
+    }
+
   return (
     <div>
         <h1>Welcome {credentials && credentials.username}</h1>
@@ -54,8 +79,8 @@ export default function Dashboard() {
              <h2>Title: {book.title}</h2>
              <h3>Author: {book.authors}</h3>
               <button onClick={addBook}>Add book</button>
-
-              </div>}
+            </div>}
+            <button onClick={library}>My Library</button>
         </form>
         <div></div>
     </div>
