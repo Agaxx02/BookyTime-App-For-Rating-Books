@@ -31,33 +31,26 @@ export default function Dashboard() {
                       setError(error.message)
                       }) 
                     }
-
-                    const persist = (newBooks) => {
-                      fetch(`http://localhost:4000/books`, {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Basic ${credentials.username}:${credentials.password}`,
+    const persist = (newBooks) => {
+         fetch(`http://localhost:8000/books`, {
+               method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                   Authorization: `Basic ${credentials.username}:${credentials.password}`,
                         },
                         body: JSON.stringify(newBooks),
                       })
                     };
                   
-                     useEffect(() => {
-                      fetch(`http://localhost:4000/books`, {
-                        method: "GET",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Basic ${credentials.username}:${credentials.password}`,
-                        },
-                      })
-                        .then((response) => response.json())
-                        .then((books) => setBooks(books));
-                    }, []);
     const addBook = async (e) => {
-      if(!book) return
       e.preventDefault();
       const newBook = {id:uuidv4(), title: book.title, numOfPages: book.numOfPages, authors: book.authors}
+      for(let i = 0; i<books.length; i++){
+        if(books[i].title === newBook.title){
+          setError('Book already added')
+          return
+        }
+      }
       const newBooks = [...books, newBook]
       setBooks(newBooks);
       persist(books)
