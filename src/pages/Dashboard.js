@@ -31,28 +31,19 @@ export default function Dashboard() {
                       setError(error.message)
                       }) 
                     }
-    const persist = async (newBooks) => {
-         fetch(`http://localhost:8000/books`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Basic ${credentials.username}:${credentials.password}`
-          },
-          body: JSON.stringify(newBooks)
-                      })
-                    };
-                  
+
+    const persist = (books) => {
+      fetch('http://localhost:8000/books', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${credentials.username}:${credentials.password}`
+        },
+        body: JSON.stringify(books)
+      })
+    }
     const addBook = () => {
-      const newBook = {id:uuidv4(), title: book.title, numOfPages: book.numOfPages, authors: book.authors}
-      // for(let i = 0; i<books.length; i++){
-      //   if(books[i].title === newBook.title){
-      //     setError('Book already added')
-      //     return
-      //   }
-      //}
-      const newBooks = [...books, newBook]
-      setBooks(newBooks);
-      persist(books)
+      persist(book)
     }
     const library = (e) => {
       e.preventDefault();
