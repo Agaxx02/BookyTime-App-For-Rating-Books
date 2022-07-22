@@ -7,12 +7,10 @@ import { v4 as uuidv4 } from 'uuid'
 export default function Dashboard() {
     const [credentials, setCredentials] = useContext(CredentialsContext)
     const [isbn, setIsbn] = useState('')
-    const[book, setBook] = useState(null)
-    const[books, setBooks] = useState([])
+    const[currentBook, setCurrentBook] = useState(null)
     const [error, setError] = useState('')
     const navigate = useNavigate()
-   
-
+      
     const search = async (e) => {
         setError('')
         e.preventDefault();
@@ -21,10 +19,11 @@ export default function Dashboard() {
                     .then(data => {
                       let obj = data.contents
                       obj = JSON.parse(obj)
-                      setBook({
+                      setCurrentBook({
                         'title': obj[`ISBN:${isbn}`]['title'],
                         'numOfPages': obj[`ISBN:${isbn}`]['number_of_pages'],
-                        'authors': obj[`ISBN:${isbn}`]['authors'][0]['name']
+                        'authors': obj[`ISBN:${isbn}`]['authors'][0]['name'],
+                        'id': uuidv4()
                       })
                     })
                       .catch((error) => {
@@ -32,19 +31,17 @@ export default function Dashboard() {
                       }) 
                     }
 
-    const persist = (books) => {
+    const addBook = (books) => {
       fetch('http://localhost:8000/books', {
-        method: 'post',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Basic ${credentials.username}:${credentials.password}`
+           Authentication: `${credentials.username}:${credentials.password}`
         },
         body: JSON.stringify(books)
       })
     }
-    const addBook = () => {
-      persist(book)
-    }
+
     const library = (e) => {
       e.preventDefault();
       navigate('/library')
@@ -58,10 +55,10 @@ export default function Dashboard() {
             <label htmlFor='ISBNNumber'>ISBN Number</label>
             <input id='ISBNNumber' onChange={(e) => setIsbn(e.target.value)}></input>
             <button type='submit'>Search</button>
-            {book && <div className='searchResult'>
-             <h2>Title: {book.title}</h2>
-             <h3>Author: {book.authors}</h3>
-              <button onClick={addBook}>Add book</button>
+            {currentBook && <div className='searchResult'>
+             <h2>Title: {currentBook.title}</h2>
+             <h3>Author: {currentBook.authors}</h3>
+              <button onClick={addBook(currentBook)}>Add book</button>
             </div>}
             <button onClick={library}>My Library</button>
         </form>
