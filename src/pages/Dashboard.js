@@ -14,6 +14,28 @@ export default function Dashboard() {
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		console.log(books, typeof books);
+		if (books == []) {
+			fetch(`http://localhost:8000/books`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Basic ${credentials.username}:${credentials.password}`,
+				},
+			})
+				.then((response) => {
+					response.json();
+				})
+				.then((books) => {
+					setBooks(books);
+				});
+		}else{
+			persist(books);
+			
+		}
+	}, [books]);
+
 	const search = async (e) => {
 		setError('');
 		e.preventDefault();
@@ -39,31 +61,44 @@ export default function Dashboard() {
 	};
 
 	const persist = (books) => {
-		console.log(books);
 		fetch('http://localhost:8000/books', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Basic ${credentials.username}:${credentials.password}`,
 			},
 			body: JSON.stringify(books),
 		});
 	};
 
 	const checkForDuplicates = () => {
-		// for (let i = 0; i < books.length; i++) {
-		// 	if (
-		// 		books[i].title === currentBook.title &&
-		// 		books[i].numOfPages === currentBook.numOfPages
-		// 	) {
-		// 		setError('Book already added');
-		// 		return;
-		// 	}
-		// }
+		for (let i = 0; i < books.length; i++) {
+			if (
+				books[i].title === currentBook.title &&
+				books[i].numOfPages === currentBook.numOfPages
+			) {
+				setError('Book already added');
+				return;
+			}
+		}
 		setBooks((oldBooks) => [...oldBooks, currentBook]);
 	};
-	useEffect(() => {
-		persist(books);
-	}, [books]);
+
+	const getBooks = () => {
+		fetch(`http://localhost:8000/books`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Basic ${credentials.username}:${credentials.password}`,
+			},
+		})
+			.then((response) => {
+				response.json();
+			})
+			.then((books) => {
+				setBooks(books);
+			});
+	};
 
 	const library = () => {
 		navigate('/library');
