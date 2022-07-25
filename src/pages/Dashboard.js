@@ -27,7 +27,11 @@ export default function Dashboard() {
 			} else {
 				didMount.current = true;
 				console.log(books, typeof books);
-				if (books.length === 0) {
+				if (
+					books === undefined ||
+					books === null ||
+					books.length === 0
+				) {
 					fetch(`http://localhost:8000/books`, {
 						method: 'GET',
 						headers: {
@@ -48,6 +52,7 @@ export default function Dashboard() {
 			}
 		}, [books]);
 	};
+	useDidMountEffect();
 
 	const search = async (e) => {
 		setError('');
@@ -84,6 +89,10 @@ export default function Dashboard() {
 	};
 
 	const checkForDuplicates = () => {
+		if (books === undefined || books === null) {
+			setBooks([currentBook]);
+			return;
+		}
 		for (let i = 0; i < books.length; i++) {
 			if (
 				books[i].title === currentBook.title &&
