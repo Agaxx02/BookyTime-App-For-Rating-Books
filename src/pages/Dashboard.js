@@ -1,8 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+	useContext,
+	useEffect,
+	useState,
+	useRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
-import { v4 as uuidv4 } from 'uuid';
 
 export default function Dashboard() {
 	const [credentials, setCredentials] = useContext(
@@ -14,27 +18,36 @@ export default function Dashboard() {
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		console.log(books, typeof books);
-		if (books == []) {
-			fetch(`http://localhost:8000/books`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Basic ${credentials.username}:${credentials.password}`,
-				},
-			})
-				.then((response) => {
-					response.json();
-				})
-				.then((books) => {
-					setBooks(books);
-				});
-		}else{
-			persist(books);
-			
-		}
-	}, [books]);
+	const useDidMountEffect = () => {
+		const didMount = useRef(false);
+		useEffect(() => {
+			if (didMount.current) {
+				persist(books);
+				console.log('books changed');
+			} else {
+				didMount.current = true;
+				console.log(books, typeof books);
+				if (books.length === 0) {
+					fetch(`http://localhost:8000/books`, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json',
+							Authorization: `Basic ${credentials.username}:${credentials.password}`,
+						},
+					})
+						.then(handleErrors)
+						.then((data) => {
+							let obj = data;
+							setBooks(obj.books);
+							console.log(obj);
+						})
+						.catch((error) => {
+							setError(error.message);
+						});
+				}
+			}
+		}, [books]);
+	};
 
 	const search = async (e) => {
 		setError('');
@@ -52,7 +65,6 @@ export default function Dashboard() {
 					title: obj[`ISBN:${isbn}`]['title'],
 					numOfPages: obj[`ISBN:${isbn}`]['number_of_pages'],
 					authors: obj[`ISBN:${isbn}`]['authors'][0]['name'],
-					id: uuidv4(),
 				});
 			})
 			.catch((error) => {
@@ -82,22 +94,6 @@ export default function Dashboard() {
 			}
 		}
 		setBooks((oldBooks) => [...oldBooks, currentBook]);
-	};
-
-	const getBooks = () => {
-		fetch(`http://localhost:8000/books`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Basic ${credentials.username}:${credentials.password}`,
-			},
-		})
-			.then((response) => {
-				response.json();
-			})
-			.then((books) => {
-				setBooks(books);
-			});
 	};
 
 	const library = () => {
