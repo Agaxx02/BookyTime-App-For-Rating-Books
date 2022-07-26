@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useEffect, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
 
@@ -7,6 +8,7 @@ export default function Library() {
 	const [credentials] = useContext(CredentialsContext);
 	const [books, setBooks] = useState([]);
 	const [error, setError] = useState('');
+	const navigate = useNavigate();
 	const useDidMountEffect = () => {
 		const didMount = useRef(false);
 		useEffect(() => {
@@ -42,22 +44,26 @@ export default function Library() {
 	useDidMountEffect();
 
 	const getBooks = () => {
-		if (typeof books === null || typeof books === undefined) {
+		if (books === null || books === undefined) {
 			setBooks([]);
 		} else {
 			return books;
 		}
 	};
+	const dashboard = () => {
+		navigate('/dashboard');
+	};
 
 	return (
 		<div>
-			<h1>Library</h1>
-			<h3>My Books</h3>
+			<h1>Your library</h1>
+			<button onClick={dashboard}>Search books</button>
 			<section>
 				{getBooks().map((book) => (
 					<div key={book._id}>
+						<img src={book.cover} alt='Book cover'></img>
 						<h4>{book.title}</h4>
-						<h4>{book.authors}</h4>
+						<h4>{book.author}</h4>
 						<h4>{book.numOfPages}</h4>
 					</div>
 				))}

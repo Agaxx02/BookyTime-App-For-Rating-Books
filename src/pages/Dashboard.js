@@ -66,10 +66,12 @@ export default function Dashboard() {
 			.then((data) => {
 				let obj = data.contents;
 				obj = JSON.parse(obj);
+				console.log(obj);
 				setCurrentBook({
 					title: obj[`ISBN:${isbn}`]['title'],
 					numOfPages: obj[`ISBN:${isbn}`]['number_of_pages'],
-					authors: obj[`ISBN:${isbn}`]['authors'][0]['name'],
+					author: obj[`ISBN:${isbn}`]['authors'][0]['name'],
+					cover: obj[`ISBN:${isbn}`]['cover']['medium'],
 				});
 			})
 			.catch((error) => {
@@ -78,6 +80,7 @@ export default function Dashboard() {
 	};
 
 	const persist = (books) => {
+		if (!books) return;
 		fetch('http://localhost:8000/books', {
 			method: 'POST',
 			headers: {
@@ -111,7 +114,7 @@ export default function Dashboard() {
 
 	return (
 		<div>
-			<h1>Welcome {credentials && credentials.username}</h1>
+			<h1>Hello {credentials && credentials.username}!</h1>
 			{error && <span className='errorMessage'>{error}</span>}
 			<form onSubmit={search}>
 				<label htmlFor='ISBNNumber'>ISBN Number</label>
@@ -120,14 +123,15 @@ export default function Dashboard() {
 					onChange={(e) => setIsbn(e.target.value)}
 				></input>
 				<button type='submit'>Search</button>
+				<button onClick={library}>My Library</button>
 				{currentBook && (
 					<div className='searchResult'>
+						<img src={currentBook.cover} alt='Book cover'></img>
 						<h2>Title: {currentBook.title}</h2>
-						<h3>Author: {currentBook.authors}</h3>
+						<h3>Author: {currentBook.author}</h3>
 						<button onClick={checkForDuplicates}>Add book</button>
 					</div>
 				)}
-				<button onClick={library}>My Library</button>
 			</form>
 			<div></div>
 		</div>
