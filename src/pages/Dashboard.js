@@ -80,7 +80,6 @@ export default function Dashboard() {
 	};
 
 	const persist = (books) => {
-		if (!books) return;
 		fetch('http://localhost:8000/books', {
 			method: 'POST',
 			headers: {

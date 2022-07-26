@@ -53,6 +53,9 @@ export default function Library() {
 	const dashboard = () => {
 		navigate('/dashboard');
 	};
+	const deleteBook = (id) => {
+		console.log(id);
+	};
 
 	return (
 		<div>
@@ -65,6 +68,11 @@ export default function Library() {
 						<h4>{book.title}</h4>
 						<h4>{book.author}</h4>
 						<h4>{book.numOfPages}</h4>
+						<img
+							onClick={(e) => deleteBook(book._id)}
+							src='./icons8-delete-24.png'
+							alt='delete icon'
+						></img>
 					</div>
 				))}
 			</section>
