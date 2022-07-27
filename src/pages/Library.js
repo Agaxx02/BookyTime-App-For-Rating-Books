@@ -3,9 +3,12 @@ import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
+import { persist } from './Dashboard';
 
 export default function Library() {
-	const [credentials] = useContext(CredentialsContext);
+	const [credentials, setCredentials] = useContext(
+		CredentialsContext
+	);
 	const [books, setBooks] = useState([]);
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
@@ -41,7 +44,9 @@ export default function Library() {
 			}
 		}, [books]);
 	};
-	useDidMountEffect();
+	useDidMountEffect((e) => {
+		e.preventDefault();
+	});
 
 	const getBooks = () => {
 		if (books === null || books === undefined) {
@@ -53,13 +58,28 @@ export default function Library() {
 	const dashboard = () => {
 		navigate('/dashboard');
 	};
+	const logout = () => {
+		setCredentials(null);
+		navigate('/');
+	};
 	const deleteBook = (id) => {
-		console.log(id);
+		let bookIndex;
+		let copied = books;
+		copied.forEach((book, index) => {
+			if (book._id === id) {
+				bookIndex = index;
+			}
+		});
+		copied.splice(bookIndex, 1);
+		setBooks([copied]);
+		persist(copied, credentials);
+		console.log(books, copied);
 	};
 
 	return (
 		<div>
 			<h1>Your library</h1>
+			{credentials && <button onClick={logout}>Logout</button>}
 			<button onClick={dashboard}>Search books</button>
 			<section>
 				{getBooks().map((book) => (
@@ -69,7 +89,10 @@ export default function Library() {
 						<h4>{book.author}</h4>
 						<h4>{book.numOfPages}</h4>
 						<img
-							onClick={(e) => deleteBook(book._id)}
+							onClick={(e) => {
+								e.preventDefault();
+								deleteBook(book._id);
+							}}
 							src='./icons8-delete-24.png'
 							alt='delete icon'
 						></img>

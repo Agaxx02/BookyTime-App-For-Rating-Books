@@ -8,6 +8,17 @@ import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
 
+export const persist = (books, credentials) => {
+	fetch('http://localhost:8000/books', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Basic ${credentials.username}:${credentials.password}`,
+		},
+		body: JSON.stringify(books),
+	});
+};
+
 export default function Dashboard() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
@@ -22,7 +33,7 @@ export default function Dashboard() {
 		const didMount = useRef(false);
 		useEffect(() => {
 			if (didMount.current) {
-				persist(books);
+				persist(books, credentials);
 				console.log('books changed');
 			} else {
 				didMount.current = true;
@@ -52,7 +63,9 @@ export default function Dashboard() {
 			}
 		}, [books]);
 	};
-	useDidMountEffect();
+	useDidMountEffect((e) => {
+		e.preventDefault();
+	});
 
 	const search = async (e) => {
 		setError('');
@@ -67,27 +80,19 @@ export default function Dashboard() {
 				let obj = data.contents;
 				obj = JSON.parse(obj);
 				console.log(obj);
+
 				setCurrentBook({
 					title: obj[`ISBN:${isbn}`]['title'],
 					numOfPages: obj[`ISBN:${isbn}`]['number_of_pages'],
 					author: obj[`ISBN:${isbn}`]['authors'][0]['name'],
-					cover: obj[`ISBN:${isbn}`]['cover']['medium'],
+					cover: obj[`ISBN:${isbn}`]['cover']
+						? obj[`ISBN:${isbn}`]['cover']['medium']
+						: null,
 				});
 			})
 			.catch((error) => {
 				setError(error.message);
 			});
-	};
-
-	const persist = (books) => {
-		fetch('http://localhost:8000/books', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Basic ${credentials.username}:${credentials.password}`,
-			},
-			body: JSON.stringify(books),
-		});
 	};
 
 	const checkForDuplicates = () => {
@@ -111,10 +116,16 @@ export default function Dashboard() {
 		navigate('/library');
 	};
 
+	const logout = () => {
+		setCredentials(null);
+		navigate('/');
+	};
+
 	return (
 		<div>
 			<h1>Hello {credentials && credentials.username}!</h1>
 			{error && <span className='errorMessage'>{error}</span>}
+			{credentials && <button onClick={logout}>Logout</button>}
 			<form onSubmit={search}>
 				<label htmlFor='ISBNNumber'>ISBN Number</label>
 				<input
