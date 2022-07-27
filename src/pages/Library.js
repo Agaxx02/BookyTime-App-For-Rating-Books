@@ -50,9 +50,8 @@ export default function Library() {
 			}
 		});
 		copied.splice(bookIndex, 1);
-		setBooks([copied]);
-		persist(copied, credentials);
-		console.log(books, copied);
+
+		setBooks(copied);
 	};
 
 	return (
@@ -86,11 +85,11 @@ export default function Library() {
 								<h4>{book.author}</h4>
 								<h4>{book.numOfPages}</h4>
 								<img
+									alt='delete book'
+									src='./icons8-delete-24.png'
 									onClick={() => {
 										deleteBook(book._id);
 									}}
-									src='./icons8-delete-24.png'
-									alt='delete icon'
 								></img>
 							</div>
 						);
