@@ -27,6 +27,7 @@ export default function Dashboard() {
 	const [currentBook, setCurrentBook] = useState(null);
 	const [books, setBooks] = useState([]);
 	const [error, setError] = useState('');
+	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
 	const useDidMountEffect = () => {
@@ -69,7 +70,6 @@ export default function Dashboard() {
 
 	const search = async (e) => {
 		setError('');
-		e.preventDefault();
 		await fetch(
 			`https://api.allorigins.win/get?url=${encodeURIComponent(
 				`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
@@ -96,6 +96,7 @@ export default function Dashboard() {
 	};
 
 	const checkForDuplicates = () => {
+		setMessage('');
 		if (books === undefined || books === null) {
 			setBooks([currentBook]);
 			return;
@@ -105,11 +106,12 @@ export default function Dashboard() {
 				books[i].title === currentBook.title &&
 				books[i].numOfPages === currentBook.numOfPages
 			) {
-				setError('Book already added');
+				setMessage('Book already added');
 				return;
 			}
 		}
 		setBooks((oldBooks) => [...oldBooks, currentBook]);
+		setMessage('Book successfully added');
 	};
 
 	const library = () => {
@@ -126,11 +128,19 @@ export default function Dashboard() {
 			<h1>Hello {credentials && credentials.username}!</h1>
 			{error && <span className='errorMessage'>{error}</span>}
 			{credentials && <button onClick={logout}>Logout</button>}
-			<form onSubmit={search}>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					search();
+				}}
+			>
 				<label htmlFor='ISBNNumber'>ISBN Number</label>
 				<input
 					id='ISBNNumber'
-					onChange={(e) => setIsbn(e.target.value)}
+					onChange={(e) => {
+						setIsbn(e.target.value);
+						setMessage('');
+					}}
 				></input>
 				<button type='submit'>Search</button>
 				<button onClick={library}>My Library</button>
@@ -143,6 +153,7 @@ export default function Dashboard() {
 					</div>
 				)}
 			</form>
+			{message}
 			<div></div>
 		</div>
 	);
