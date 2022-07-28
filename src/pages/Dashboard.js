@@ -31,14 +31,9 @@ export default function Dashboard() {
 	const navigate = useNavigate();
 
 	const useDidMountEffect = () => {
-		const didMount = useRef(false);
+		const didMount = useRef(true);
 		useEffect(() => {
 			if (didMount.current) {
-				persist(books, credentials);
-				console.log('books changed');
-			} else {
-				didMount.current = true;
-				console.log(books, typeof books);
 				if (
 					books === undefined ||
 					books === null ||
@@ -62,7 +57,10 @@ export default function Dashboard() {
 						});
 				}
 			}
-		}, [books]);
+			didMount.current = false;
+
+			console.log(books, typeof books);
+		});
 	};
 	useDidMountEffect((e) => {
 		e.preventDefault();
@@ -98,7 +96,7 @@ export default function Dashboard() {
 	const checkForDuplicates = () => {
 		setMessage('');
 		if (books === undefined || books === null) {
-			setBooks([currentBook]);
+			setBooks([currentBook], persist(currentBook, credentials));
 			return;
 		}
 		for (let i = 0; i < books.length; i++) {
@@ -107,10 +105,16 @@ export default function Dashboard() {
 				books[i].numOfPages === currentBook.numOfPages
 			) {
 				setMessage('Book already added');
+
 				return;
 			}
 		}
-		setBooks((oldBooks) => [...oldBooks, currentBook]);
+		let copied = books;
+		copied = [...copied, currentBook];
+		setBooks(
+			(oldBooks) => [...oldBooks, currentBook],
+			persist(copied, credentials)
+		);
 		setMessage('Book successfully added');
 	};
 
