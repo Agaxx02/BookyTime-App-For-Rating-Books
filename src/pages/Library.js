@@ -58,15 +58,25 @@ export default function Library() {
 	};
 	const deleteBook = (id) => {
 		let copied = books;
-		for (let i = 0; i < copied.length; i++) {
-			if (copied[i]._id === id) {
-				copied.splice(i, 1, {});
+		let bookIndex;
+		copied.forEach((book, index) => {
+			if (book._id === id) {
+				bookIndex = index;
 			}
-			copied.filter((item) => {
-				return item != {};
-			});
-			setBooks(copied, persist(books, credentials));
-		}
+		});
+		books.splice(bookIndex, 1);
+		setBooks(
+			[...books],
+			fetch('http://localhost:8000/deleteBook', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Basic ${credentials.username}:${credentials.password}`,
+				},
+				body: JSON.stringify(copied),
+			})
+		);
+		console.log(typeof books, books);
 	};
 
 	return (
