@@ -3,7 +3,6 @@ import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
-import { persist } from './Dashboard';
 
 export default function Library() {
 	const [credentials, setCredentials] = useContext(
@@ -56,27 +55,25 @@ export default function Library() {
 		setCredentials(null);
 		navigate('/');
 	};
-	const deleteBook = (id) => {
-		let copied = books;
-		let bookIndex;
-		copied.forEach((book, index) => {
-			if (book._id === id) {
-				bookIndex = index;
-			}
+	const deleteBook = (index) => {
+		books.splice(index, 1);
+		setBooks([...books], updateBooks(books, credentials));
+	};
+
+	const updateBooks = async (books, credentials) => {
+		fetch('http://localhost:8000/deleteBook', {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Basic ${credentials.username}:${credentials.password}`,
+			},
+			body: JSON.stringify(books),
 		});
-		books.splice(bookIndex, 1);
-		setBooks(
-			[...books],
-			fetch('http://localhost:8000/deleteBook', {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Basic ${credentials.username}:${credentials.password}`,
-				},
-				body: JSON.stringify(copied),
-			})
-		);
 		console.log(typeof books, books);
+	};
+	const finished = (index) => {
+		books[index]['read'] = true;
+		setBooks([...books], updateBooks(books, credentials));
 	};
 
 	return (
@@ -105,22 +102,27 @@ export default function Library() {
 					books.map((book, index) => {
 						return (
 							<div key={book._id}>
+								<img src={book.cover} alt='Book cover'></img>
+								<h4>{book.title}</h4>
+								<h4>{book.author}</h4>
+								<h4>{book.numOfPages}</h4>
 								<img
-									key={book.cover}
-									src={book.cover}
-									alt='Book cover'
-								></img>
-								<h4 key={book.title}>{book.title}</h4>
-								<h4 key={book.author}>{book.author}</h4>
-								<h4 key={book.numOfPages}>{book.numOfPages}</h4>
-								<img
-									key={index}
 									alt='delete book'
 									src='./icons8-delete-24.png'
 									onClick={() => {
-										deleteBook(book._id);
+										deleteBook(index);
 									}}
 								></img>
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										finished(index);
+									}}
+								>
+									Finished
+								</button>
+
+								{book.read && <button>Rate Book</button>}
 							</div>
 						);
 					})}

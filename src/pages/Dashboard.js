@@ -86,6 +86,8 @@ export default function Dashboard() {
 					cover: obj[`ISBN:${isbn}`]['cover']
 						? obj[`ISBN:${isbn}`]['cover']['medium']
 						: null,
+					rate: null,
+					read: false,
 				});
 			})
 			.catch((error) => {
