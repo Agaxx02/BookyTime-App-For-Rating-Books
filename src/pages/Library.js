@@ -10,6 +10,10 @@ export default function Library() {
 	);
 	const [books, setBooks] = useState([]);
 	const [error, setError] = useState('');
+	const [edit, setEdit] = useState(false);
+	const [currentId, setCurrentId] = useState('');
+	const [rate, setRate] = useState('');
+	const [comment, setComment] = useState('');
 	const navigate = useNavigate();
 
 	const useDidMountEffect = () => {
@@ -75,6 +79,20 @@ export default function Library() {
 		books[index]['read'] = true;
 		setBooks([...books], updateBooks(books, credentials));
 	};
+	const editBook = (id) => {
+		setEdit(true);
+		setCurrentId(id);
+	};
+	const saveEdit = (id) => {
+		for (let i = 0; i < books.length; i++) {
+			if (books[i]._id === id) {
+				books[i].rate = rate;
+				books[i].comment = comment;
+				setBooks([...books], updateBooks(books, credentials));
+			}
+			setEdit(false);
+		}
+	};
 
 	return (
 		<div>
@@ -122,7 +140,42 @@ export default function Library() {
 									Finished
 								</button>
 
-								{book.read && <button>Rate Book</button>}
+								{book.read && (
+									<section>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												editBook(book._id);
+											}}
+										>
+											Edit
+										</button>
+									</section>
+								)}
+								{book._id === currentId && edit && (
+									<form
+										onSubmit={(e) => {
+											e.preventDefault();
+											saveEdit(book._id);
+										}}
+									>
+										<label htmlFor='rate'>Rate</label>
+										<input
+											type='number'
+											id='rate'
+											defaultValue={book.rate}
+											onChange={(e) => setRate(e.target.value)}
+										></input>
+										<label htmlFor='comment'>Your comments</label>
+										<textarea
+											name='comment'
+											defaultValue={book.comment}
+											id='comment'
+											onChange={(e) => setComment(e.target.value)}
+										></textarea>
+										<button type='submit'>Save</button>
+									</form>
+								)}
 							</div>
 						);
 					})}

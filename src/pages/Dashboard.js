@@ -88,6 +88,8 @@ export default function Dashboard() {
 						: null,
 					rate: null,
 					read: false,
+					comment: null,
+					date: null,
 				});
 			})
 			.catch((error) => {
