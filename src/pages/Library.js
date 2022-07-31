@@ -14,6 +14,7 @@ export default function Library() {
 	const [currentId, setCurrentId] = useState('');
 	const [rate, setRate] = useState('');
 	const [comment, setComment] = useState('');
+	const [filter, setFilter] = useState([true, true]);
 	const navigate = useNavigate();
 
 	const useDidMountEffect = () => {
@@ -75,8 +76,28 @@ export default function Library() {
 		});
 		console.log(typeof books, books);
 	};
-	const finished = (index) => {
-		books[index]['read'] = true;
+	const toggleFilter = (index) => {
+		let filterValues = filter;
+		filter[index] = !filter[index];
+		setFilter([...filter]);
+	};
+	const getBooks = () => {
+		if (filter[0] && filter[1]) {
+			return books;
+		} else if (filter[0]) {
+			return books.filter((books) => {
+				return books.read === true;
+			});
+		} else if (filter[1]) {
+			return books.filter((books) => {
+				return books.read === false;
+			});
+		} else {
+			return [];
+		}
+	};
+	const toggleFinished = (index) => {
+		books[index]['read'] = !books[index]['read'];
 		setBooks([...books], updateBooks(books, credentials));
 	};
 	const editBook = (id) => {
@@ -115,9 +136,30 @@ export default function Library() {
 			>
 				Search books
 			</button>
+			<div>
+				<label htmlFor='finished'>Finished</label>
+				<input
+					type='checkbox'
+					id='finished'
+					defaultChecked
+					onChange={() => {
+						toggleFilter(0);
+					}}
+				/>
+				<label htmlFor='unfinished'>Unfinished</label>
+				<input
+					type='checkbox'
+					id='unfinished'
+					defaultChecked
+					onChange={() => {
+						toggleFilter(1);
+					}}
+				/>
+			</div>
+
 			<section>
 				{books &&
-					books.map((book, index) => {
+					getBooks().map((book, index) => {
 						return (
 							<div key={book._id}>
 								<img src={book.cover} alt='Book cover'></img>
@@ -134,10 +176,10 @@ export default function Library() {
 								<button
 									onClick={(e) => {
 										e.preventDefault();
-										finished(index);
+										toggleFinished(index);
 									}}
 								>
-									Finished
+									{book.read ? 'Unfinished' : 'Finished'}
 								</button>
 
 								{book.read && (
