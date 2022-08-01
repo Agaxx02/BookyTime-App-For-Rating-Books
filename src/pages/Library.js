@@ -15,6 +15,7 @@ export default function Library() {
 	const [rate, setRate] = useState('');
 	const [comment, setComment] = useState('');
 	const [filter, setFilter] = useState([true, true]);
+	const [sort, setSort] = useState('Highest Rate');
 	const navigate = useNavigate();
 
 	const useDidMountEffect = () => {
@@ -114,6 +115,22 @@ export default function Library() {
 			setEdit(false);
 		}
 	};
+	const sortBooks = (value) => {
+		setSort(value);
+		if (value === 'Highest Rate') {
+			console.log(
+				getBooks().sort((a, b) => {
+					return b.rate - a.rate;
+				})
+			);
+		} else if (value === 'Lowest') {
+			console.log(
+				getBooks().sort((a, b) => {
+					return a.rate - b.rate;
+				})
+			);
+		}
+	};
 
 	return (
 		<div>
@@ -155,6 +172,19 @@ export default function Library() {
 						toggleFilter(1);
 					}}
 				/>
+			</div>
+			<div>
+				<label htmlFor='sort'>Sort</label>
+				<select
+					onChange={(e) => {
+						e.preventDefault();
+						sortBooks(e.target.value);
+					}}
+					id='sort'
+				>
+					<option>Highest Rate</option>
+					<option>Lowest Rate </option>
+				</select>
 			</div>
 
 			<section>
