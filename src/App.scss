@@ -1,0 +1,30 @@
+@import 'reset';
+.App {
+	text-align: center;
+	font: 'Quicksand', sans-serif;
+}
+
+.button {
+	text-decoration: none;
+	padding: 1vh;
+	border: 1px black solid;
+	color: white;
+	background-color: blue;
+}
+.welcome {
+	margin-top: 25vh;
+	h1 {
+		font-size: 4rem;
+	}
+	.link {
+		font-size: 1.1rem;
+		display: block;
+		margin: 1vh auto;
+		width: 8vw;
+	}
+}
+
+.button:hover {
+	color: blue;
+	background-color: white;
+}

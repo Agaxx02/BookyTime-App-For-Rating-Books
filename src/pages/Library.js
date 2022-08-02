@@ -15,7 +15,7 @@ export default function Library() {
 	const [rate, setRate] = useState('');
 	const [comment, setComment] = useState('');
 	const [filter, setFilter] = useState([true, true]);
-	const [sort, setSort] = useState('Highest Rate');
+	const [, setSort] = useState('Highest Rate');
 	const navigate = useNavigate();
 
 	const useDidMountEffect = () => {
@@ -78,7 +78,6 @@ export default function Library() {
 		console.log(typeof books, books);
 	};
 	const toggleFilter = (index) => {
-		let filterValues = filter;
 		filter[index] = !filter[index];
 		setFilter([...filter]);
 	};
@@ -118,23 +117,20 @@ export default function Library() {
 	const sortBooks = (value) => {
 		setSort(value);
 		if (value === 'Highest Rate') {
-			console.log(
-				getBooks().sort((a, b) => {
-					return b.rate - a.rate;
-				})
-			);
-		} else if (value === 'Lowest') {
-			console.log(
-				getBooks().sort((a, b) => {
-					return a.rate - b.rate;
-				})
-			);
+			getBooks().sort((a, b) => {
+				return b.rate - a.rate;
+			});
+		} else if (value === 'Lowest Rate') {
+			getBooks().sort((a, b) => {
+				return a.rate - b.rate;
+			});
 		}
 	};
 
 	return (
 		<div>
 			<h1>Your library</h1>
+			{error}
 			{credentials && (
 				<button
 					onClick={(e) => {
