@@ -1,30 +1,95 @@
 @import 'reset';
+$blueColor: #4281a4;
+
+html {
+	width: 100%;
+	height: 100%;
+}
 .App {
+	box-sizing: border-box;
 	text-align: center;
 	font: 'Quicksand', sans-serif;
+	width: 100%;
+}
+
+.welcome {
+	width: 100%;
+	margin: 25vh auto 0;
+	text-align: center;
+
+	h1 {
+		font-size: clamp(20%, 4rem, 5rem);
+		letter-spacing: 0.5vw;
+	}
+	.link {
+		font: {
+			size: clamp(0.5rem, 1.1rem, 2rem);
+			weight: 500;
+		}
+		display: block;
+		margin: 3vh auto 0;
+		align-items: center;
+		width: clamp(150px, 8vw, 15vw);
+	}
+}
+.login {
+	margin: 15vh auto 0;
+	border: 1px solid $blueColor;
+	width: clamp(70vw, 40vw, 100%);
+	height: 80vh;
+	h1 {
+		font-size: clamp(15%, 2.5rem, 4rem);
+	}
+	form {
+		display: block;
+		border: 1px solid black;
+		width: 70%;
+		margin: 0 auto;
+		height: 60%;
+		label {
+			font-size: clamp(20px, 0.3rem, 1.5rem);
+			margin: 30px 15px 0 0;
+		}
+		input {
+			margin: 3%;
+			width: clamp(20px, 170px, 200px);
+		}
+		button {
+			width: clamp(150px, 8vw, 15vw);
+		}
+	}
+}
+
+.errorMessage {
+	display: inline;
+	color: red;
+	font-size: 1.25rem;
 }
 
 .button {
 	text-decoration: none;
 	padding: 1vh;
-	border: 1px black solid;
+	background-color: $blueColor;
 	color: white;
-	background-color: blue;
+	border-radius: 16px;
 }
-.welcome {
-	margin-top: 25vh;
-	h1 {
-		font-size: 4rem;
-	}
-	.link {
-		font-size: 1.1rem;
-		display: block;
-		margin: 1vh auto;
-		width: 8vw;
-	}
-}
-
 .button:hover {
-	color: blue;
-	background-color: white;
+	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+		0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+@media screen and (max-width: 325px) {
+	.welcome {
+		h1 {
+			width: 100%;
+			font-size: 40px;
+		}
+		align-items: center;
+		margin: 20vh auto 0;
+	}
+	.login {
+		width: 100%;
+		input {
+			width: 50px;
+		}
+	}
 }
