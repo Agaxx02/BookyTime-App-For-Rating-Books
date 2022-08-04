@@ -132,9 +132,10 @@ export default function Dashboard() {
 	};
 
 	return (
-		<div>
+		<div className='dashboard'>
 			<h1>Hello {credentials && credentials.username}!</h1>
 			{error && <span className='errorMessage'>{error}</span>}
+			<button onClick={library}>My Library</button>
 			{credentials && <button onClick={logout}>Logout</button>}
 			<form
 				onSubmit={(e) => {
@@ -151,7 +152,6 @@ export default function Dashboard() {
 					}}
 				></input>
 				<button type='submit'>Search</button>
-				<button onClick={library}>My Library</button>
 				{currentBook && (
 					<div className='searchResult'>
 						<img src={currentBook.cover} alt='Book cover'></img>

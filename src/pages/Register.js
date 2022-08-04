@@ -44,7 +44,7 @@ export default function Register() {
 	};
 
 	return (
-		<div>
+		<div className='register'>
 			<h1>Register</h1>
 			{error && <span className='errorMessage'>{error}</span>}
 			<h3>
@@ -71,7 +71,9 @@ export default function Register() {
 					id='confirmPassword'
 				></input>
 				<br />
-				<button type='submit'>Register</button>
+				<button type='submit' className='button'>
+					Register
+				</button>
 			</form>
 		</div>
 	);
