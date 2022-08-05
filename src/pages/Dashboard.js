@@ -23,6 +23,7 @@ export default function Dashboard() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
+
 	const [isbn, setIsbn] = useState('');
 	const [currentBook, setCurrentBook] = useState(null);
 	const [books, setBooks] = useState([]);
@@ -135,8 +136,14 @@ export default function Dashboard() {
 		<div className='dashboard'>
 			<h1>Hello {credentials && credentials.username}!</h1>
 			{error && <span className='errorMessage'>{error}</span>}
-			<button onClick={library}>My Library</button>
-			{credentials && <button onClick={logout}>Logout</button>}
+			<button className='button' onClick={library}>
+				My Library
+			</button>
+			{credentials && (
+				<button onClick={logout} className='button'>
+					Logout
+				</button>
+			)}
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
@@ -151,13 +158,17 @@ export default function Dashboard() {
 						setMessage('');
 					}}
 				></input>
-				<button type='submit'>Search</button>
+				<button className='button' type='submit'>
+					Search
+				</button>
 				{currentBook && (
 					<div className='searchResult'>
 						<img src={currentBook.cover} alt='Book cover'></img>
 						<h2>Title: {currentBook.title}</h2>
 						<h3>Author: {currentBook.author}</h3>
-						<button onClick={checkForDuplicates}>Add book</button>
+						<button className='button' onClick={checkForDuplicates}>
+							Add book
+						</button>
 					</div>
 				)}
 			</form>

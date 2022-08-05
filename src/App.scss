@@ -78,8 +78,49 @@ html {
 		font-size: clamp(20%, 4rem, 5rem);
 		letter-spacing: 0.5rem;
 	}
+	button {
+		margin: 0 10px 20px 10px;
+	}
 }
-
+.library {
+	h1 {
+		font-size: clamp(20%, 4rem, 5rem);
+		letter-spacing: 0.5rem;
+	}
+	button {
+		margin: 0 10px 20px 10px;
+	}
+	.book {
+		display: grid;
+		width: 80%;
+		margin: 100px auto 0;
+		grid-template-columns: 1fr 180px 5fr 3fr;
+		grid-template-rows: 50px [cover-start]150px [cover-end]200px 50px;
+		grid-template-areas:
+			'. . . .'
+			'. . info .'
+			'. cover edit button'
+			'footer footer footer footer';
+	}
+	.item-a {
+		grid-area: cover;
+		grid-row-start: cover-start;
+		grid-row-end: 3;
+	}
+	.item-b {
+		grid-area: info;
+	}
+	.item-c {
+		grid-area: button;
+		grid-row-start: cover-start;
+		grid-row-end: 3;
+	}
+	.item-d {
+		grid-area: edit;
+		grid-column-start: 3;
+		grid-column-end: 4;
+	}
+}
 .errorMessage {
 	display: inline;
 	color: red;

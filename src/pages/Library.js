@@ -128,11 +128,12 @@ export default function Library() {
 	};
 
 	return (
-		<div>
+		<div className='library'>
 			<h1>Your library</h1>
-			{error}
+			{error && <span className='errorMessage'>{error}</span>}
 			{credentials && (
 				<button
+					className='button'
 					onClick={(e) => {
 						e.preventDefault();
 						logout();
@@ -142,6 +143,7 @@ export default function Library() {
 				</button>
 			)}
 			<button
+				className='button'
 				onClick={(e) => {
 					e.preventDefault();
 					dashboard();
@@ -168,8 +170,7 @@ export default function Library() {
 						toggleFilter(1);
 					}}
 				/>
-			</div>
-			<div>
+
 				<label htmlFor='sort'>Sort</label>
 				<select
 					onChange={(e) => {
@@ -187,63 +188,72 @@ export default function Library() {
 				{books &&
 					getBooks().map((book, index) => {
 						return (
-							<div key={book._id}>
-								<img src={book.cover} alt='Book cover'></img>
-								<h4>{book.title}</h4>
-								<h4>{book.author}</h4>
-								<h4>{book.numOfPages}</h4>
+							<div className='book' key={book._id}>
 								<img
-									alt='delete book'
-									src='./icons8-delete-24.png'
-									onClick={() => {
-										deleteBook(index);
-									}}
+									className='item-a'
+									src={book.cover}
+									alt='Book cover'
 								></img>
-								<button
-									onClick={(e) => {
-										e.preventDefault();
-										toggleFinished(index);
-									}}
-								>
-									{book.read ? 'Unfinished' : 'Finished'}
-								</button>
-
-								{book.read && (
-									<section>
-										<button
-											onClick={(e) => {
-												e.preventDefault();
-												editBook(book._id);
-											}}
-										>
-											Edit
-										</button>
-									</section>
-								)}
-								{book._id === currentId && edit && (
-									<form
-										onSubmit={(e) => {
+								<section className='item-b'>
+									<h4>{book.title}</h4>
+									<h4>{book.author}</h4>
+									<h4>{book.numOfPages} pages</h4>
+								</section>
+								<section className='item-c'>
+									<img
+										alt='delete book'
+										src='./icons8-delete-24.png'
+										onClick={() => {
+											deleteBook(index);
+										}}
+									></img>
+									<button
+										onClick={(e) => {
 											e.preventDefault();
-											saveEdit(book._id);
+											toggleFinished(index);
 										}}
 									>
-										<label htmlFor='rate'>Rate</label>
-										<input
-											type='number'
-											id='rate'
-											defaultValue={book.rate}
-											onChange={(e) => setRate(e.target.value)}
-										></input>
-										<label htmlFor='comment'>Your comments</label>
-										<textarea
-											name='comment'
-											defaultValue={book.comment}
-											id='comment'
-											onChange={(e) => setComment(e.target.value)}
-										></textarea>
-										<button type='submit'>Save</button>
-									</form>
-								)}
+										{book.read ? 'Unfinished' : 'Finished'}
+									</button>
+									{book.read && (
+										<section>
+											<button
+												onClick={(e) => {
+													e.preventDefault();
+													editBook(book._id);
+												}}
+											>
+												Edit
+											</button>
+										</section>
+									)}
+								</section>
+								<section className='item-d'>
+									{book._id === currentId && edit && (
+										<form
+											onSubmit={(e) => {
+												e.preventDefault();
+												saveEdit(book._id);
+											}}
+										>
+											<label htmlFor='rate'>Rate</label>
+											<input
+												type='number'
+												id='rate'
+												defaultValue={book.rate}
+												onChange={(e) => setRate(e.target.value)}
+											></input>
+											<label htmlFor='comment'>Your comments</label>
+											<textarea
+												name='comment'
+												defaultValue={book.comment}
+												id='comment'
+												onChange={(e) => setComment(e.target.value)}
+											></textarea>
+											<button type='submit'>Save</button>
+										</form>
+									)}
+								</section>
 							</div>
 						);
 					})}
