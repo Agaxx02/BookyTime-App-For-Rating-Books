@@ -131,6 +131,15 @@ export default function Library() {
 		<div className='library'>
 			<h1>Your library</h1>
 			{error && <span className='errorMessage'>{error}</span>}
+			<button
+				className='button'
+				onClick={(e) => {
+					e.preventDefault();
+					dashboard();
+				}}
+			>
+				Search books
+			</button>
 			{credentials && (
 				<button
 					className='button'
@@ -142,15 +151,6 @@ export default function Library() {
 					Logout
 				</button>
 			)}
-			<button
-				className='button'
-				onClick={(e) => {
-					e.preventDefault();
-					dashboard();
-				}}
-			>
-				Search books
-			</button>
 			<div>
 				<label htmlFor='finished'>Finished</label>
 				<input
@@ -190,23 +190,16 @@ export default function Library() {
 						return (
 							<div className='book' key={book._id}>
 								<img
-									className='item-a'
+									className='item-a cover'
 									src={book.cover}
 									alt='Book cover'
 								></img>
 								<section className='item-b'>
-									<h4>{book.title}</h4>
-									<h4>{book.author}</h4>
-									<h4>{book.numOfPages} pages</h4>
+									<h4>Title: {book.title}</h4>
+									<h4>Author: {book.author}</h4>
+									<h4>Number of pages: {book.numOfPages} </h4>
 								</section>
 								<section className='item-c'>
-									<img
-										alt='delete book'
-										src='./icons8-delete-24.png'
-										onClick={() => {
-											deleteBook(index);
-										}}
-									></img>
 									<button
 										onClick={(e) => {
 											e.preventDefault();
@@ -214,6 +207,13 @@ export default function Library() {
 										}}
 									>
 										{book.read ? 'Unfinished' : 'Finished'}
+									</button>
+									<button
+										onClick={() => {
+											deleteBook(index);
+										}}
+									>
+										Delete
 									</button>
 									{book.read && (
 										<section>
@@ -243,13 +243,15 @@ export default function Library() {
 												defaultValue={book.rate}
 												onChange={(e) => setRate(e.target.value)}
 											></input>
-											<label htmlFor='comment'>Your comments</label>
+
+											<label htmlFor='comment'>Your comment</label>
 											<textarea
 												name='comment'
 												defaultValue={book.comment}
 												id='comment'
 												onChange={(e) => setComment(e.target.value)}
 											></textarea>
+
 											<button type='submit'>Save</button>
 										</form>
 									)}

@@ -91,15 +91,22 @@ html {
 		margin: 0 10px 20px 10px;
 	}
 	.book {
+		.cover {
+			height: 140px;
+		}
+
 		display: grid;
-		width: 80%;
-		margin: 100px auto 0;
+		width: 60%;
+		height: 160px;
+		border: 1px solid black;
+		font-size: 0.6rem;
+		margin: 50px auto 0;
 		grid-template-columns: 1fr 180px 5fr 3fr;
-		grid-template-rows: 50px [cover-start]150px [cover-end]200px 50px;
+		grid-template-rows: [top-margin] 10px [cover-start]70px [cover-end]70px [bottom-margin]10px;
 		grid-template-areas:
 			'. . . .'
-			'. . info .'
-			'. cover edit button'
+			'. . info button'
+			'. cover edit edit'
 			'footer footer footer footer';
 	}
 	.item-a {
@@ -109,6 +116,7 @@ html {
 	}
 	.item-b {
 		grid-area: info;
+		text-align: left;
 	}
 	.item-c {
 		grid-area: button;
@@ -119,6 +127,7 @@ html {
 		grid-area: edit;
 		grid-column-start: 3;
 		grid-column-end: 4;
+		display: block;
 	}
 }
 .errorMessage {
