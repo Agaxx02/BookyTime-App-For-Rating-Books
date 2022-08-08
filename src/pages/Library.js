@@ -27,7 +27,7 @@ export default function Library() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`https://bookytime-backend.herokuapp.com/books`, {
+					fetch(`books`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export default function Library() {
 	};
 
 	const updateBooks = async (books, credentials) => {
-		fetch('https://bookytime-backend.herokuapp.com/deleteBook', {
+		fetch('deleteBook', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
