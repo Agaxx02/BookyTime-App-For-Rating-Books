@@ -27,7 +27,7 @@ export default function Library() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`books`, {
+					fetch(`http://localhost:${process.env.PORT}/books`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export default function Library() {
 	};
 
 	const updateBooks = async (books, credentials) => {
-		fetch('deleteBook', {
+		fetch('http://localhost:${process.env.PORT}/deleteBook', {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

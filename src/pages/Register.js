@@ -22,7 +22,7 @@ export default function Register() {
 
 	const register = (e) => {
 		e.preventDefault();
-		fetch(`register`, {
+		fetch(`http://localhost:${process.env.PORT}/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

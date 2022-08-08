@@ -9,7 +9,7 @@ import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
 
 export const persist = (books, credentials) => {
-	fetch('books', {
+	fetch('http://localhost:${process.env.PORT}/books', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export default function Dashboard() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`books`, {
+					fetch(`http://localhost:${process.env.PORT}/books`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
