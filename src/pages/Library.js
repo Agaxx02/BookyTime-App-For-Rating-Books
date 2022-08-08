@@ -28,7 +28,7 @@ export default function Library() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`http://localhost:${PORT}/books`, {
+					fetch(`http://localhost:8000/books`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export default function Library() {
 	};
 
 	const updateBooks = async (books, credentials) => {
-		fetch(`http://localhost:${PORT}/deleteBook`, {
+		fetch(`http://localhost:8000/deleteBook`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
