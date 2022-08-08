@@ -230,30 +230,49 @@ export default function Library() {
 								</section>
 								<section className='item-d'>
 									{book._id === currentId && edit && (
-										<form
-											onSubmit={(e) => {
-												e.preventDefault();
-												saveEdit(book._id);
-											}}
-										>
-											<label htmlFor='rate'>Rate</label>
-											<input
-												type='number'
-												id='rate'
-												defaultValue={book.rate}
-												onChange={(e) => setRate(e.target.value)}
-											></input>
+										<div className='editForm'>
+											<form
+												onSubmit={(e) => {
+													e.preventDefault();
+													saveEdit(book._id);
+												}}
+											>
+												<label
+													className='item-label1 '
+													htmlFor='rate'
+												>
+													Rate
+												</label>
+												<input
+													className='item-input1'
+													type='number'
+													id='rate'
+													defaultValue={book.rate}
+													onChange={(e) => setRate(e.target.value)}
+												></input>
+												<br />
+												<label
+													className='item-label2 '
+													htmlFor='comment'
+												>
+													Your comment
+												</label>
+												<textarea
+													className='item-input2'
+													name='comment'
+													defaultValue={book.comment}
+													id='comment'
+													onChange={(e) => setComment(e.target.value)}
+												></textarea>
 
-											<label htmlFor='comment'>Your comment</label>
-											<textarea
-												name='comment'
-												defaultValue={book.comment}
-												id='comment'
-												onChange={(e) => setComment(e.target.value)}
-											></textarea>
-
-											<button type='submit'>Save</button>
-										</form>
+												<button
+													className='item-saveEdit'
+													type='submit'
+												>
+													Save
+												</button>
+											</form>
+										</div>
 									)}
 								</section>
 							</div>

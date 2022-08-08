@@ -86,7 +86,7 @@ export default function Dashboard() {
 					author: obj[`ISBN:${isbn}`]['authors'][0]['name'],
 					cover: obj[`ISBN:${isbn}`]['cover']
 						? obj[`ISBN:${isbn}`]['cover']['medium']
-						: null,
+						: './No_cover.jpg',
 					rate: null,
 					read: false,
 					comment: null,
