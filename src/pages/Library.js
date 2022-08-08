@@ -3,6 +3,7 @@ import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
+import './config/.env';
 
 export default function Library() {
 	const [credentials, setCredentials] = useContext(
@@ -27,7 +28,7 @@ export default function Library() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`http://localhost:${process.env.PORT}/books`, {
+					fetch(`http://localhost:${PORT}/books`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ export default function Library() {
 	};
 
 	const updateBooks = async (books, credentials) => {
-		fetch('http://localhost:${process.env.PORT}/deleteBook', {
+		fetch(`http://localhost:${PORT}/deleteBook`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

@@ -7,9 +7,10 @@ import React, {
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
+import './config/.env';
 
 export const persist = (books, credentials) => {
-	fetch('http://localhost:${process.env.PORT}/books', {
+	fetch(`http://localhost:${PORT}/books`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ export default function Dashboard() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`http://localhost:${process.env.PORT}/books`, {
+					fetch(`http://localhost:${PORT}/books`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
