@@ -9,7 +9,7 @@ import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
 
 export const persist = (books, credentials) => {
-	fetch('http://localhost:8000/books', {
+	fetch('https://bookytime-backend.herokuapp.com/books', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
