@@ -27,7 +27,7 @@ export default function Library() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`https://bookytime-server.herokuapp.com/books`, {
+					fetch(`https://bookytime-server.herokuapp.com/getBooks`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
