@@ -7,7 +7,6 @@ import React, {
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
-import './config/.env';
 
 export const persist = (books, credentials) => {
 	fetch(`https://bookytime-backend.herokuapp.com/addBooks`, {

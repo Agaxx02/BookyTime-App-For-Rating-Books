@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
-import './config/.env';
 
 export default function Login() {
 	const [username, setUsername] = useState('');

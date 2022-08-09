@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
-import './config/.env';
 
 export const handleErrors = async (res) => {
 	if (!res.ok) {
