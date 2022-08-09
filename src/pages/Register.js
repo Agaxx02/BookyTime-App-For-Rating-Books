@@ -22,7 +22,7 @@ export default function Register() {
 
 	const register = (e) => {
 		e.preventDefault();
-		fetch(`https://bookytime-backend.herokuapp.com/registerUser`, {
+		fetch(`https://bookytime-server.herokuapp.com/registerUser`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

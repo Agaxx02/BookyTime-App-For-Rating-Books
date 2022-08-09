@@ -9,7 +9,7 @@ import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
 
 export const persist = (books, credentials) => {
-	fetch(`https://bookytime-backend.herokuapp.com/addBooks`, {
+	fetch(`https://bookytime-server.herokuapp.com/addBooks`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export default function Dashboard() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`https://bookytime-backend.herokuapp.com/getBooks`, {
+					fetch(`https://bookytime-server.herokuapp.com/getBooks`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',

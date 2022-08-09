@@ -14,7 +14,7 @@ export default function Login() {
 
 	const login = (e) => {
 		e.preventDefault();
-		fetch(`https://bookytime-backend.herokuapp.com/loginUser`, {
+		fetch(`https://bookytime-server.herokuapp.com/loginUser`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
