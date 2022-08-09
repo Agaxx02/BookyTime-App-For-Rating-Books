@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 8000;
 
-require('dotenv').config({ path: './config/.env' });
+require('dotenv').config({ path: 'config/.env' });
 
 const ObjectId = require('mongoose').Types.ObjectId;
 
