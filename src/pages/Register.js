@@ -1,14 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
-
-export const handleErrors = async (res) => {
-	if (!res.ok) {
-		const { message } = await res.json();
-		throw Error(message);
-	}
-	return res.json();
-};
+import { BASE_URL } from '../api/config';
+import handleErrors from '../api/handleErrors';
 
 export default function Register() {
 	const [username, setUsername] = useState('');
@@ -16,13 +10,11 @@ export default function Register() {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
-	const [credentials, setCredentials] = useContext(
-		CredentialsContext
-	);
+	const [, setCredentials] = useContext(CredentialsContext);
 
 	const register = (e) => {
 		e.preventDefault();
-		fetch(`https://bookytime-server.herokuapp.com/registerUser`, {
+		fetch(`${BASE_URL}/registerUser`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

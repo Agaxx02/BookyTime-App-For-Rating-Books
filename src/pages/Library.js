@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../api/config';
 import { CredentialsContext } from '../App';
-import { handleErrors } from './Register';
 
 export default function Library() {
 	const [credentials, setCredentials] = useContext(
@@ -22,28 +22,8 @@ export default function Library() {
 		const didMount = useRef(true);
 		useEffect(() => {
 			if (didMount.current) {
-				if (
-					books === undefined ||
-					books === null ||
-					books.length === 0
-				) {
-					fetch(`https://bookytime-server.herokuapp.com/getBooks`, {
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Basic ${credentials.username}:${credentials.password}`,
-						},
-					})
-						.then(handleErrors)
-						.then((data) => {
-							let obj = data;
-							setBooks(obj.books);
-							console.log(obj);
-						})
-						.catch((error) => {
-							setError(error.message);
-						});
-				}
+				let fetchedBooks = getBooks();
+				setBooks(fetchedBooks);
 			}
 			didMount.current = false;
 
@@ -67,7 +47,7 @@ export default function Library() {
 	};
 
 	const updateBooks = async (books, credentials) => {
-		fetch(`https://bookytime-server.herokuapp.com/deleteBook`, {
+		fetch(`${BASE_URL}/deleteBook`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',

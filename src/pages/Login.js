@@ -2,19 +2,18 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { handleErrors } from './Register';
+import { BASE_URL } from '../api/config';
 
 export default function Login() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
-	const [credentials, setCredentials] = useContext(
-		CredentialsContext
-	);
+	const [, setCredentials] = useContext(CredentialsContext);
 
 	const login = (e) => {
 		e.preventDefault();
-		fetch(`https://bookytime-server.herokuapp.com/loginUser`, {
+		fetch(`${BASE_URL}/loginUser`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

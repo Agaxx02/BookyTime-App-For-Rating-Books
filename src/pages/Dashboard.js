@@ -6,18 +6,9 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
-import { handleErrors } from './Register';
-
-export const persist = (books, credentials) => {
-	fetch(`https://bookytime-server.herokuapp.com/addBooks`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Basic ${credentials.username}:${credentials.password}`,
-		},
-		body: JSON.stringify(books),
-	});
-};
+import { handleErrors } from '../api/handleErrors';
+import { updateBooks } from '../api/updateBooks';
+import { getBooks } from '../api/getBooks';
 
 export default function Dashboard() {
 	const [credentials, setCredentials] = useContext(
@@ -40,22 +31,8 @@ export default function Dashboard() {
 					books === null ||
 					books.length === 0
 				) {
-					fetch(`https://bookytime-server.herokuapp.com/getBooks`, {
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Basic ${credentials.username}:${credentials.password}`,
-						},
-					})
-						.then(handleErrors)
-						.then((data) => {
-							let obj = data;
-							setBooks(obj.books);
-							console.log(obj);
-						})
-						.catch((error) => {
-							setError(error.message);
-						});
+					let fetchedBooks = getBooks();
+					setBooks(fetchedBooks);
 				}
 			}
 			didMount.current = false;
@@ -101,7 +78,7 @@ export default function Dashboard() {
 	const checkForDuplicates = () => {
 		setMessage('');
 		if (books === undefined || books === null) {
-			setBooks([currentBook], persist(currentBook, credentials));
+			setBooks([currentBook], updateBooks(currentBook, credentials));
 			return;
 		}
 		for (let i = 0; i < books.length; i++) {
@@ -118,7 +95,7 @@ export default function Dashboard() {
 		copied = [...copied, currentBook];
 		setBooks(
 			(oldBooks) => [...oldBooks, currentBook],
-			persist(copied, credentials)
+			updateBooks(copied, credentials)
 		);
 		setMessage('Book successfully added');
 	};
