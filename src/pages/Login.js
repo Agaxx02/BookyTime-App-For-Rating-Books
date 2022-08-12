@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
-import { handleErrors } from './Register';
+import { handleErrors } from '../api/handleErrors';
 import { BASE_URL } from '../api/config';
 
 export default function Login() {

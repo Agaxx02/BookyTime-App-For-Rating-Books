@@ -1,7 +1,8 @@
 import { handleErrors } from './handleErrors';
+import { BASE_URL } from '../api/config';
 
-export const getBooks = async () => {
-	fetch(`${BASE_URL}/getBooks`, {
+export const getBooks = async (credentials) => {
+	await fetch(`${BASE_URL}/getBooks`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -13,8 +14,5 @@ export const getBooks = async () => {
 			let obj = data;
 			let books = obj.books;
 			return books;
-		})
-		.catch((error) => {
-			setError(error.message);
 		});
 };

@@ -3,12 +3,14 @@ import { useEffect, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../api/config';
 import { CredentialsContext } from '../App';
+import { getBooks } from '../api/getBooks';
 
 export default function Library() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
 	const [books, setBooks] = useState([]);
+	const [displayedBooks, setDisplayedBooks] = useState([]);
 	const [error, setError] = useState('');
 	const [edit, setEdit] = useState(false);
 	const [currentId, setCurrentId] = useState('');
@@ -22,12 +24,12 @@ export default function Library() {
 		const didMount = useRef(true);
 		useEffect(() => {
 			if (didMount.current) {
-				let fetchedBooks = getBooks();
+				let fetchedBooks = getBooks(credentials);
+				console.log(fetchedBooks);
 				setBooks(fetchedBooks);
+				setDisplayedBooks(fetchedBooks);
 			}
 			didMount.current = false;
-
-			console.log(books, typeof books);
 		});
 	};
 	useDidMountEffect((e) => {
@@ -61,51 +63,51 @@ export default function Library() {
 		filter[index] = !filter[index];
 		setFilter([...filter]);
 	};
-	const getBooks = () => {
-		if (filter[0] && filter[1]) {
-			return books;
-		} else if (filter[0]) {
-			return books.filter((books) => {
-				return books.read === true;
-			});
-		} else if (filter[1]) {
-			return books.filter((books) => {
-				return books.read === false;
-			});
-		} else {
-			return [];
-		}
-	};
-	const toggleFinished = (index) => {
-		books[index]['read'] = !books[index]['read'];
-		setBooks([...books], updateBooks(books, credentials));
-	};
-	const editBook = (id) => {
-		setEdit(true);
-		setCurrentId(id);
-	};
-	const saveEdit = (id) => {
-		for (let i = 0; i < books.length; i++) {
-			if (books[i]._id === id) {
-				books[i].rate = rate;
-				books[i].comment = comment;
-				setBooks([...books], updateBooks(books, credentials));
-			}
-			setEdit(false);
-		}
-	};
-	const sortBooks = (value) => {
-		setSort(value);
-		if (value === 'Highest Rate') {
-			getBooks().sort((a, b) => {
-				return b.rate - a.rate;
-			});
-		} else if (value === 'Lowest Rate') {
-			getBooks().sort((a, b) => {
-				return a.rate - b.rate;
-			});
-		}
-	};
+	// const getDisplayedBooks = () => {
+	// 	if (filter[0] && filter[1]) {
+	// 		return books;
+	// 	} else if (filter[0]) {
+	// 		return books.filter((books) => {
+	// 			return books.read === true;
+	// 		});
+	// 	} else if (filter[1]) {
+	// 		return books.filter((books) => {
+	// 			return books.read === false;
+	// 		});
+	// 	} else {
+	// 		return [];
+	// 	}
+	// };
+	// const toggleFinished = (index) => {
+	// 	books[index]['read'] = !books[index]['read'];
+	// 	setBooks([...books], updateBooks(books, credentials));
+	// };
+	// const editBook = (id) => {
+	// 	setEdit(true);
+	// 	setCurrentId(id);
+	// };
+	// const saveEdit = (id) => {
+	// 	for (let i = 0; i < books.length; i++) {
+	// 		if (books[i]._id === id) {
+	// 			books[i].rate = rate;
+	// 			books[i].comment = comment;
+	// 			setBooks([...books], updateBooks(books, credentials));
+	// 		}
+	// 		setEdit(false);
+	// 	}
+	// };
+	// const sortBooks = (value) => {
+	// 	setSort(value);
+	// 	if (value === 'Highest Rate') {
+	// 		getDisplayedBooks().sort((a, b) => {
+	// 			return b.rate - a.rate;
+	// 		});
+	// 	} else if (value === 'Lowest Rate') {
+	// 		getDisplayedBooks().sort((a, b) => {
+	// 			return a.rate - b.rate;
+	// 		});
+	// 	}
+	// };
 
 	return (
 		<div className='library'>
@@ -131,7 +133,7 @@ export default function Library() {
 					Logout
 				</button>
 			)}
-			<div>
+			{/* <div>
 				<label htmlFor='finished'>Finished</label>
 				<input
 					type='checkbox'
@@ -162,11 +164,11 @@ export default function Library() {
 					<option>Highest Rate</option>
 					<option>Lowest Rate </option>
 				</select>
-			</div>
+			</div> */}
 
-			<section>
+			{/* <section>
 				{books &&
-					getBooks().map((book, index) => {
+					books.map((book, index) => {
 						return (
 							<div className='book' key={book._id}>
 								<img
@@ -258,7 +260,7 @@ export default function Library() {
 							</div>
 						);
 					})}
-			</section>
+			</section> */}
 		</div>
 	);
 }

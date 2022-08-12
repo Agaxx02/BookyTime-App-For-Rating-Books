@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { BASE_URL } from '../api/config';
-import handleErrors from '../api/handleErrors';
+import { handleErrors } from '../api/handleErrors';
 
 export default function Register() {
 	const [username, setUsername] = useState('');

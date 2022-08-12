@@ -9,6 +9,7 @@ import { CredentialsContext } from '../App';
 import { handleErrors } from '../api/handleErrors';
 import { updateBooks } from '../api/updateBooks';
 import { getBooks } from '../api/getBooks';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Dashboard() {
 	const [credentials, setCredentials] = useContext(
@@ -16,33 +17,18 @@ export default function Dashboard() {
 	);
 
 	const [isbn, setIsbn] = useState('');
-	const [currentBook, setCurrentBook] = useState(null);
 	const [books, setBooks] = useState([]);
+	const [currentBook, setCurrentBook] = useState(null);
 	const [error, setError] = useState('');
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
-	const useDidMountEffect = () => {
-		const didMount = useRef(true);
-		useEffect(() => {
-			if (didMount.current) {
-				if (
-					books === undefined ||
-					books === null ||
-					books.length === 0
-				) {
-					let fetchedBooks = getBooks();
-					setBooks(fetchedBooks);
-				}
-			}
-			didMount.current = false;
-
-			console.log(books, typeof books);
-		});
-	};
-	useDidMountEffect((e) => {
-		e.preventDefault();
+	const fetchedBooks = useQuery(['fetchedBooks'], () => {
+		getBooks(credentials);
 	});
+	useEffect(() => {
+		console.log(fetchedBooks);
+	}, []);
 
 	const search = async (e) => {
 		setError('');
