@@ -55,7 +55,6 @@ export default function Dashboard() {
 			.then((data) => {
 				let obj = data.contents;
 				obj = JSON.parse(obj);
-				console.log(obj);
 
 				setCurrentBook({
 					title: obj[`ISBN:${isbn}`]['title'],
