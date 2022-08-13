@@ -23,12 +23,7 @@ export default function Dashboard() {
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
-	const fetchedBooks = useQuery(['fetchedBooks'], () => {
-		getBooks(credentials);
-	});
-	useEffect(() => {
-		console.log(fetchedBooks);
-	}, []);
+
 
 	const search = async (e) => {
 		setError('');
@@ -61,31 +56,7 @@ export default function Dashboard() {
 			});
 	};
 
-	const checkForDuplicates = () => {
-		setMessage('');
-		if (books === undefined || books === null) {
-			setBooks([currentBook], updateBooks(currentBook, credentials));
-			return;
-		}
-		for (let i = 0; i < books.length; i++) {
-			if (
-				books[i].title === currentBook.title &&
-				books[i].numOfPages === currentBook.numOfPages
-			) {
-				setMessage('Book already added');
-
-				return;
-			}
-		}
-		let copied = books;
-		copied = [...copied, currentBook];
-		setBooks(
-			(oldBooks) => [...oldBooks, currentBook],
-			updateBooks(copied, credentials)
-		);
-		setMessage('Book successfully added');
-	};
-
+	
 	const library = () => {
 		navigate('/library');
 	};
@@ -129,7 +100,7 @@ export default function Dashboard() {
 						<img src={currentBook.cover} alt='Book cover'></img>
 						<h2>Title: {currentBook.title}</h2>
 						<h3>Author: {currentBook.author}</h3>
-						<button className='button' onClick={checkForDuplicates}>
+						<button className='button'>
 							Add book
 						</button>
 					</div>
