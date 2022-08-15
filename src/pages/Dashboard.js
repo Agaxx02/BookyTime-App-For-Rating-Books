@@ -25,6 +25,8 @@ export default function Dashboard() {
 
 	const search = async (isbn) => {
 		let current = await searchISBN(isbn);
+		setCurrentBook(current);
+		console.log(current);
 	};
 
 	const library = () => {
