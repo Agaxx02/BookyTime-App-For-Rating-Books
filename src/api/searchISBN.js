@@ -1,6 +1,7 @@
 import { handleErrors } from './handleErrors';
 
 export const searchISBN = async (isbn) => {
+	let fetchedData = null;
 	await fetch(
 		`https://api.allorigins.win/get?url=${encodeURIComponent(
 			`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
@@ -22,7 +23,8 @@ export const searchISBN = async (isbn) => {
 				comment: null,
 				date: null,
 			};
-			console.log(currentBook);
-			return currentBook;
+
+			fetchedData = currentBook;
 		});
+	return fetchedData;
 };

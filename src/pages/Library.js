@@ -1,16 +1,15 @@
-import React, { useRef } from 'react';
-import { useEffect, useContext, useState } from 'react';
+import React from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../api/config';
 import { CredentialsContext } from '../App';
 import { getBooks } from '../api/getBooks';
+import { useQuery } from '@tanstack/react-query';
+import { updateBooks } from '../api/updateBooks';
 
 export default function Library() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
-	const [books, setBooks] = useState([]);
-	const [displayedBooks, setDisplayedBooks] = useState([]);
 	const [error, setError] = useState('');
 	const [edit, setEdit] = useState(false);
 	const [currentId, setCurrentId] = useState('');
@@ -20,21 +19,10 @@ export default function Library() {
 	const [, setSort] = useState('Highest Rate');
 	const navigate = useNavigate();
 
-	const useDidMountEffect = () => {
-		const didMount = useRef(true);
-		useEffect(() => {
-			if (didMount.current) {
-				let fetchedBooks = getBooks(credentials);
-				console.log(fetchedBooks);
-				setBooks(fetchedBooks);
-				setDisplayedBooks(fetchedBooks);
-			}
-			didMount.current = false;
-		});
-	};
-	useDidMountEffect((e) => {
-		e.preventDefault();
+	const { data } = useQuery(['books'], () => {
+		getBooks(credentials);
 	});
+	console.log(data);
 
 	const dashboard = () => {
 		navigate('/dashboard');
@@ -44,70 +32,14 @@ export default function Library() {
 		navigate('/');
 	};
 	const deleteBook = (index) => {
-		books.splice(index, 1);
-		setBooks([...books], updateBooks(books, credentials));
+		data.splice(index, 1);
+		updateBooks(data, credentials);
 	};
 
-	const updateBooks = async (books, credentials) => {
-		fetch(`${BASE_URL}/deleteBook`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Basic ${credentials.username}:${credentials.password}`,
-			},
-			body: JSON.stringify(books),
-		});
-		console.log(typeof books, books);
-	};
 	const toggleFilter = (index) => {
 		filter[index] = !filter[index];
 		setFilter([...filter]);
 	};
-	// const getDisplayedBooks = () => {
-	// 	if (filter[0] && filter[1]) {
-	// 		return books;
-	// 	} else if (filter[0]) {
-	// 		return books.filter((books) => {
-	// 			return books.read === true;
-	// 		});
-	// 	} else if (filter[1]) {
-	// 		return books.filter((books) => {
-	// 			return books.read === false;
-	// 		});
-	// 	} else {
-	// 		return [];
-	// 	}
-	// };
-	// const toggleFinished = (index) => {
-	// 	books[index]['read'] = !books[index]['read'];
-	// 	setBooks([...books], updateBooks(books, credentials));
-	// };
-	// const editBook = (id) => {
-	// 	setEdit(true);
-	// 	setCurrentId(id);
-	// };
-	// const saveEdit = (id) => {
-	// 	for (let i = 0; i < books.length; i++) {
-	// 		if (books[i]._id === id) {
-	// 			books[i].rate = rate;
-	// 			books[i].comment = comment;
-	// 			setBooks([...books], updateBooks(books, credentials));
-	// 		}
-	// 		setEdit(false);
-	// 	}
-	// };
-	// const sortBooks = (value) => {
-	// 	setSort(value);
-	// 	if (value === 'Highest Rate') {
-	// 		getDisplayedBooks().sort((a, b) => {
-	// 			return b.rate - a.rate;
-	// 		});
-	// 	} else if (value === 'Lowest Rate') {
-	// 		getDisplayedBooks().sort((a, b) => {
-	// 			return a.rate - b.rate;
-	// 		});
-	// 	}
-	// };
 
 	return (
 		<div className='library'>
@@ -166,101 +98,105 @@ export default function Library() {
 				</select>
 			</div> */}
 
-			{/* <section>
-				{books &&
-					books.map((book, index) => {
-						return (
-							<div className='book' key={book._id}>
-								<img
-									className='item-a cover'
-									src={book.cover}
-									alt='Book cover'
-								></img>
-								<section className='item-b'>
-									<h4>Title: {book.title}</h4>
-									<h4>Author: {book.author}</h4>
-									<h4>Number of pages: {book.numOfPages} </h4>
-								</section>
-								<section className='item-c'>
-									<button
-										onClick={(e) => {
-											e.preventDefault();
-											toggleFinished(index);
-										}}
-									>
-										{book.read ? 'Unfinished' : 'Finished'}
-									</button>
-									<button
-										onClick={() => {
-											deleteBook(index);
-										}}
-									>
-										Delete
-									</button>
-									{book.read && (
-										<section>
-											<button
-												onClick={(e) => {
-													e.preventDefault();
-													editBook(book._id);
-												}}
-											>
-												Edit
-											</button>
-										</section>
-									)}
-								</section>
-								<section className='item-d'>
-									{book._id === currentId && edit && (
-										<div className='editForm'>
-											<form
-												onSubmit={(e) => {
-													e.preventDefault();
-													saveEdit(book._id);
-												}}
-											>
-												<label
-													className='item-label1 '
-													htmlFor='rate'
-												>
-													Rate
-												</label>
-												<input
-													className='item-input1'
-													type='number'
-													id='rate'
-													defaultValue={book.rate}
-													onChange={(e) => setRate(e.target.value)}
-												></input>
-												<br />
-												<label
-													className='item-label2 '
-													htmlFor='comment'
-												>
-													Your comment
-												</label>
-												<textarea
-													className='item-input2'
-													name='comment'
-													defaultValue={book.comment}
-													id='comment'
-													onChange={(e) => setComment(e.target.value)}
-												></textarea>
-
+			{
+				<section>
+					{data &&
+						data.map((book, index) => {
+							return (
+								<div className='book' key={book._id}>
+									<img
+										className='item-a cover'
+										src={book.cover}
+										alt='Book cover'
+									></img>
+									<section className='item-b'>
+										<h4>Title: {book.title}</h4>
+										<h4>Author: {book.author}</h4>
+										<h4>Number of pages: {book.numOfPages} </h4>
+									</section>
+									<section className='item-c'>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												book.read = !book.read;
+												updateBooks(data, credentials);
+												console.log(book, data);
+											}}
+										>
+											{book.read ? 'Unfinished' : 'Finished'}
+										</button>
+										<button
+											onClick={() => {
+												deleteBook(index);
+											}}
+										>
+											Delete
+										</button>
+										{book.read && (
+											<section>
 												<button
-													className='item-saveEdit'
-													type='submit'
+													onClick={(e) => {
+														e.preventDefault();
+													}}
 												>
-													Save
+													Edit
 												</button>
-											</form>
-										</div>
-									)}
-								</section>
-							</div>
-						);
-					})}
-			</section> */}
+											</section>
+										)}
+									</section>
+									<section className='item-d'>
+										{book._id === currentId && edit && (
+											<div className='editForm'>
+												<form
+													onSubmit={(e) => {
+														e.preventDefault();
+													}}
+												>
+													<label
+														className='item-label1 '
+														htmlFor='rate'
+													>
+														Rate
+													</label>
+													<input
+														className='item-input1'
+														type='number'
+														id='rate'
+														defaultValue={book.rate}
+														onChange={(e) => setRate(e.target.value)}
+													></input>
+													<br />
+													<label
+														className='item-label2 '
+														htmlFor='comment'
+													>
+														Your comment
+													</label>
+													<textarea
+														className='item-input2'
+														name='comment'
+														defaultValue={book.comment}
+														id='comment'
+														onChange={(e) =>
+															setComment(e.target.value)
+														}
+													></textarea>
+
+													<button
+														className='item-saveEdit'
+														type='submit'
+													>
+														Save
+													</button>
+												</form>
+											</div>
+										)}
+									</section>
+								</div>
+							);
+						})}
+				</section>
+			}
 		</div>
 	);
 }

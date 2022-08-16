@@ -12,16 +12,36 @@ export default function Dashboard() {
 	);
 
 	const [isbnNumber, setIsbnNumber] = useState(null);
-	const [books, setBooks] = useState([]);
 	const [currentBook, setCurrentBook] = useState(null);
 	const [error, setError] = useState('');
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
+	const { data } = useQuery(['books'], () => {
+		getBooks(credentials);
+	});
+
 	const search = async (isbn) => {
-		let current = await searchISBN(isbn);
-		setCurrentBook(current);
-		console.log(current);
+		searchISBN(isbn).then((responseJSON) => {
+			setCurrentBook(responseJSON);
+		});
+	};
+
+	const addBook = () => {
+		for (let i = 0; i < data.length; i++) {
+			if (
+				data[i].title === currentBook.title &&
+				data[i].numOfPages === currentBook.numOfPages
+			) {
+				setMessage('Book already added');
+
+				return;
+			}
+		}
+
+		data.push(currentBook);
+		updateBooks(data, credentials);
+		setMessage('Book successfully added');
 	};
 
 	const library = () => {
@@ -40,10 +60,12 @@ export default function Dashboard() {
 			<button className='button' onClick={library}>
 				My Library
 			</button>
-			{credentials && (
+			{credentials ? (
 				<button onClick={logout} className='button'>
 					Logout
 				</button>
+			) : (
+				<h3>Please login or register to continue</h3>
 			)}
 			<form
 				onSubmit={(e) => {
@@ -57,6 +79,7 @@ export default function Dashboard() {
 					onChange={(e) => {
 						setIsbnNumber(e.target.value);
 						setMessage('');
+						setCurrentBook(null);
 					}}
 				></input>
 				<button className='button' type='submit'>
@@ -67,7 +90,9 @@ export default function Dashboard() {
 						<img src={currentBook.cover} alt='Book cover'></img>
 						<h2>Title: {currentBook.title}</h2>
 						<h3>Author: {currentBook.author}</h3>
-						<button className='button'>Add book</button>
+						<button className='button' onClick={addBook}>
+							Add book
+						</button>
 					</div>
 				)}
 			</form>

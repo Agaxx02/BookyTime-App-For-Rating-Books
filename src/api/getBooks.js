@@ -2,6 +2,7 @@ import { handleErrors } from './handleErrors';
 import { BASE_URL } from '../api/config';
 
 export const getBooks = async (credentials) => {
+	let fetchedData = null;
 	await fetch(`${BASE_URL}/getBooks`, {
 		method: 'GET',
 		headers: {
@@ -13,6 +14,8 @@ export const getBooks = async (credentials) => {
 		.then((data) => {
 			let obj = data;
 			let books = obj.books;
-			return books;
+			fetchedData = books;
 		});
+
+	return fetchedData;
 };
