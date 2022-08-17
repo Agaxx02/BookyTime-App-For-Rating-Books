@@ -13,12 +13,11 @@ export default function Dashboard() {
 
 	const [isbnNumber, setIsbnNumber] = useState(null);
 	const [currentBook, setCurrentBook] = useState(null);
-	const [error, setError] = useState('');
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
-	const { data } = useQuery(['books'], () => {
-		getBooks(credentials);
+	const { data, status, error } = useQuery(['books'], () => {
+		return getBooks(credentials);
 	});
 
 	const search = async (isbn) => {
@@ -56,7 +55,7 @@ export default function Dashboard() {
 	return (
 		<div className='dashboard'>
 			<h1>Hello {credentials && credentials.username}!</h1>
-			{error && <span className='errorMessage'>{error}</span>}
+
 			<button className='button' onClick={library}>
 				My Library
 			</button>
@@ -65,7 +64,7 @@ export default function Dashboard() {
 					Logout
 				</button>
 			) : (
-				<h3>Please login or register to continue</h3>
+				{ logout }
 			)}
 			<form
 				onSubmit={(e) => {
