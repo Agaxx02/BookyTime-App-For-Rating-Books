@@ -16,12 +16,12 @@ const queryClient = new QueryClient();
 export const CredentialsContext = React.createContext();
 
 function App() {
-	const credentialsState = useState(null);
+	const credentialsState = useState();
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<div className='App'>
-				<CredentialsContext.Provider value={credentialsState}>
+			<CredentialsContext.Provider value={credentialsState}>
+				<div className='App'>
 					<BrowserRouter>
 						<Routes>
 							<Route path='/' element={<Welcome />} />
@@ -31,8 +31,8 @@ function App() {
 							<Route path='library' element={<Library />} />
 						</Routes>
 					</BrowserRouter>
-				</CredentialsContext.Provider>
-			</div>
+				</div>
+			</CredentialsContext.Provider>
 		</QueryClientProvider>
 	);
 }

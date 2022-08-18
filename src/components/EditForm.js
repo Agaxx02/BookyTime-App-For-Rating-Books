@@ -30,12 +30,17 @@ function EditForm(props) {
 
 	return (
 		<div>
-			<form onSubmit={saveEdit}>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					saveEdit();
+				}}
+			>
 				<label htmlFor='rate'>Rate</label>
 				<input
 					id='rate'
 					type='number'
-					defaultValue={props.rate}
+					defaultValue={props.props.rate}
 					onChange={(e) => {
 						e.preventDefault();
 						setRate(e.target.value);
@@ -44,7 +49,7 @@ function EditForm(props) {
 				<label htmlFor='comment'>Comment</label>
 				<textarea
 					id='comment'
-					defaultValue={props.comment}
+					defaultValue={props.props.comment}
 					onChange={(e) => {
 						e.preventDefault();
 						setComment(e.target.value);
