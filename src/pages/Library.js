@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
@@ -11,14 +11,18 @@ export default function Library() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
-
+	const [books, setBooks] = useState([]);
 	const [showEdit, setShowEdit] = useState(false);
 	const [currentBook, setCurrentBook] = useState('');
 	const navigate = useNavigate();
 
-	const { data } = useQuery(['books'], () => {
+	let { data } = useQuery(['books'], () => {
 		return getBooks(credentials);
 	});
+
+	useEffect(() => {
+		setBooks(data);
+	}, [books]);
 
 	const dashboard = () => {
 		navigate('/dashboard');
@@ -27,9 +31,12 @@ export default function Library() {
 		setCredentials(null);
 		navigate('/');
 	};
-	const deleteBook = (index) => {
-		data.splice(index, 1);
-		updateBooks(data, credentials);
+	const deleteBook = (index, book) => {
+		if (book.title === books[index].title) {
+			books.splice(index, 1);
+			data = books;
+			setBooks([...books], updateBooks(books, credentials));
+		}
 	};
 
 	return (
@@ -51,8 +58,8 @@ export default function Library() {
 
 			{
 				<section>
-					{data &&
-						data.map((book, index) => {
+					{books &&
+						books.map((book, index) => {
 							return (
 								<div className='book' key={book._id}>
 									<img
@@ -69,15 +76,22 @@ export default function Library() {
 										<button
 											onClick={(e) => {
 												e.preventDefault();
-												book.read = !book.read;
-												updateBooks(data, credentials);
+												if (books[index].title === book.title) {
+													books[index].read = !books[index].read;
+													data = books;
+													setBooks(
+														[...books],
+														updateBooks(books, credentials)
+													);
+												}
 											}}
 										>
 											{book.read ? 'Unfinished' : 'Finished'}
 										</button>
 										<button
-											onClick={() => {
-												deleteBook(index);
+											onClick={(e) => {
+												e.preventDefault();
+												deleteBook(index, book);
 											}}
 										>
 											Delete
