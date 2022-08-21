@@ -1,7 +1,6 @@
 import React from 'react';
 
 function PageCounter(props) {
-	console.log(props);
 	const countPages = (props) => {
 		let pages = 0;
 		props.props.forEach((book) => {

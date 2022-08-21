@@ -10,6 +10,7 @@ function EditForm(props) {
 	const [rate, setRate] = useState(null);
 	const [comment, setComment] = useState(null);
 	const [currentBook] = useState(props.props);
+	const [error, setError] = useState(null);
 
 	const { data } = useQuery(['books'], () => {
 		return getBooks(credentials);
@@ -30,9 +31,14 @@ function EditForm(props) {
 
 	return (
 		<div>
+			{error}
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
+					if ((rate > 10 || rate <= 0) && rate !== null) {
+						setError('Rate has to be a number from 1-10');
+						return;
+					}
 					saveEdit();
 				}}
 			>
@@ -43,6 +49,7 @@ function EditForm(props) {
 					defaultValue={props.props.rate}
 					onChange={(e) => {
 						e.preventDefault();
+						setError(null);
 						setRate(e.target.value);
 					}}
 				></input>
@@ -52,6 +59,7 @@ function EditForm(props) {
 					defaultValue={props.props.comment}
 					onChange={(e) => {
 						e.preventDefault();
+						setError(null);
 						setComment(e.target.value);
 					}}
 				></textarea>
