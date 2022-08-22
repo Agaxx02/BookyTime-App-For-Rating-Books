@@ -88,7 +88,13 @@ export default function Library() {
 					}}
 				>
 					<option>Lowest Rate</option>
-					<option selected='selected'>Highest Rate</option>
+					<option defaultValue>Highest Rate</option>
+					<option>Most Pages</option>
+					<option>Least Pages</option>
+					<option>Author A-Z</option>
+					<option>Author Z-A</option>
+					<option>Title A-Z</option>
+					<option>Title Z-A</option>
 				</select>
 			</section>
 			{
@@ -112,9 +118,6 @@ export default function Library() {
 									<h4>Number of pages: {book.numOfPages} </h4>
 									{book.rate ? (
 										<h4>Your rate: {book.rate} </h4>
-									) : null}
-									{book.comment ? (
-										<h4>Your comment: {book.comment} </h4>
 									) : null}
 								</section>
 								<section className='item-c'>

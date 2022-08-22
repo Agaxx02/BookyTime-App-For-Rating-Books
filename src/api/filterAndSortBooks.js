@@ -17,11 +17,35 @@ export const filterAndSortBooks = (
 	});
 	filtered.sort((a, b) => {
 		let sorted;
-		if (sort === 'Highest Rate') {
-			sorted = b.rate - a.rate;
-		} else if (sort === 'Lowest Rate') {
-			sorted = a.rate - b.rate;
+		switch (sort) {
+			case 'Highest Rate':
+				sorted = b.rate - a.rate;
+				break;
+			case 'Lowest Rate':
+				sorted = a.rate - b.rate;
+				break;
+			case 'Most Pages':
+				sorted = b.numOfPages - a.numOfPages;
+				break;
+			case 'Least Pages':
+				sorted = a.numOfPages - b.numOfPages;
+				break;
+			case 'Title A-Z':
+				sorted = a.title.localeCompare(b.title);
+				break;
+			case 'Title Z-A':
+				sorted = b.title.localeCompare(a.title);
+				break;
+			case 'Author A-Z':
+				sorted = a.author.localeCompare(b.author);
+				break;
+			case 'Author Z-A':
+				sorted = b.author.localeCompare(a.author);
+				break;
+			default:
+				return sorted;
 		}
+
 		return sorted;
 	});
 

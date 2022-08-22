@@ -16,7 +16,7 @@ export default function Dashboard() {
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
-	const { data, status, error } = useQuery(['books'], () => {
+	const { data } = useQuery(['books'], () => {
 		return getBooks(credentials);
 	});
 
@@ -59,13 +59,9 @@ export default function Dashboard() {
 			<button className='button' onClick={library}>
 				My Library
 			</button>
-			{credentials ? (
-				<button onClick={logout} className='button'>
-					Logout
-				</button>
-			) : (
-				{ logout }
-			)}
+			<button onClick={logout} className='button'>
+				Logout
+			</button>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
