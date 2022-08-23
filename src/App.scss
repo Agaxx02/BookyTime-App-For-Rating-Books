@@ -148,22 +148,28 @@ html {
 		grid-row-start: cover-start;
 		grid-row-end: 3;
 	}
-	.item-d {
-		grid-area: edit;
-		grid-column-start: 3;
-		grid-column-end: 4;
-		display: block;
-		text-align: left;
-		form {
-			display: grid;
-			height: 80px;
-			width: 600px;
-			grid-template-columns: 1fr 3fr [saveEdit]1fr;
-			grid-template-rows: 2fr 2fr;
-			grid-template-areas:
-				'label1 input1 save'
-				'label2 input2 .';
-		}
+	.popup {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.2);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.popup-inner {
+		position: relative;
+		padding: 32px;
+		width: 100%;
+		max-width: 640px;
+		background-color: #fff;
+	}
+	.close-btn {
+		position: absolute;
+		top: 16px;
+		right: 16px;
 	}
 	.item-label1 {
 		grid-area: label1;

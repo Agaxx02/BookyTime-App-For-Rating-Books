@@ -8,6 +8,7 @@ import { updateBooks } from '../api/updateBooks';
 import { filterAndSortBooks } from '../api/filterAndSortBooks';
 import EditForm from '../components/EditForm';
 import PageCounter from '../components/PageCounter';
+import ConfirmDelete from '../components/ConfirmDelete';
 
 export default function Library() {
 	const [credentials, setCredentials] = useContext(
@@ -15,6 +16,7 @@ export default function Library() {
 	);
 	const [books, setBooks] = useState([]);
 	const [showEdit, setShowEdit] = useState(false);
+	const [confirmDelete, setConfirmDelete] = useState(false);
 	const [currentBook, setCurrentBook] = useState('');
 	const [showFinished, setShowFinished] = useState(true);
 	const [showUnfinished, setShowUnfinished] = useState(true);
@@ -35,13 +37,6 @@ export default function Library() {
 	const logout = () => {
 		setCredentials(null);
 		navigate('/');
-	};
-	const deleteBook = (index, book) => {
-		if (book.title === books[index].title) {
-			books.splice(index, 1);
-			data = books;
-			setBooks([...books], updateBooks(books, credentials));
-		}
 	};
 
 	return (
@@ -87,8 +82,8 @@ export default function Library() {
 						setSort(e.target.value);
 					}}
 				>
-					<option>Lowest Rate</option>
 					<option defaultValue>Highest Rate</option>
+					<option>Lowest Rate</option>
 					<option>Most Pages</option>
 					<option>Least Pages</option>
 					<option>Author A-Z</option>
@@ -139,11 +134,20 @@ export default function Library() {
 									<button
 										onClick={(e) => {
 											e.preventDefault();
-											deleteBook(index, book);
+											setConfirmDelete(true);
+											setCurrentBook(book);
 										}}
 									>
 										Delete
 									</button>
+									{confirmDelete && book === currentBook ? (
+										<ConfirmDelete
+											confirm={confirmDelete}
+											setPopup={setConfirmDelete}
+											setBooks={setBooks}
+											bookToDelete={book}
+										/>
+									) : null}
 									{book.read && (
 										<button
 											onClick={(e) => {
@@ -156,7 +160,12 @@ export default function Library() {
 									)}
 								</section>
 								{showEdit && book === currentBook ? (
-									<EditForm props={currentBook} />
+									<EditForm
+										props={currentBook}
+										popup={showEdit}
+										setPopup={setShowEdit}
+										credentials={credentials}
+									/>
 								) : null}
 							</div>
 						);
