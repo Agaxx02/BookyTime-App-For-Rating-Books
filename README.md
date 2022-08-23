@@ -10,6 +10,7 @@
 ## To be added:
 - Sorting by date added and date read
 - Possibility to search for books by author and title
+- Adding my profile page with statistics
 - Possibility to see other people updates 
 
 ## Contributions:
