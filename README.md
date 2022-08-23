@@ -7,11 +7,11 @@
 - React queries
 - SASS
 
-** To be added:
+## To be added:
 - Sorting by date added and date read
 - Possibility to search for books by author and title
 - Possibility to see other people updates 
 
-** Contributions:
+## Contributions:
 Any contributions / comments / suggestions are always very welcome 
 
