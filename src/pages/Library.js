@@ -24,11 +24,13 @@ export default function Library() {
 	const navigate = useNavigate();
 
 	let { data } = useQuery(['books'], () => {
+		console.log(data);
 		return getBooks(credentials);
 	});
 
 	useEffect(() => {
 		setBooks(data);
+		console.log(books);
 	}, [data]);
 
 	const dashboard = () => {
@@ -90,6 +92,10 @@ export default function Library() {
 					<option>Author Z-A</option>
 					<option>Title A-Z</option>
 					<option>Title Z-A</option>
+					<option>Date Added ^</option>
+					<option>Date Added v</option>
+					<option>Date Updated ^</option>
+					<option>Date Updated v</option>
 				</select>
 			</section>
 			{
@@ -111,6 +117,16 @@ export default function Library() {
 									<h4>Title: {book.title}</h4>
 									<h4>Author: {book.author}</h4>
 									<h4>Number of pages: {book.numOfPages} </h4>
+
+									<h4>
+										Date Added:
+										{book.dateAdded}
+									</h4>
+									<h4>
+										Last updated:
+										{book.lastUpdated}
+									</h4>
+
 									{book.rate ? (
 										<h4>Your rate: {book.rate} </h4>
 									) : null}
@@ -121,6 +137,7 @@ export default function Library() {
 											e.preventDefault();
 											if (books[index].title === book.title) {
 												books[index].read = !books[index].read;
+												books[index].lastUpdated = new Date();
 												data = books;
 												setBooks(
 													[...books],

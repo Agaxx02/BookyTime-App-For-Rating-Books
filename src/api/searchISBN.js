@@ -21,8 +21,10 @@ export const searchISBN = async (isbn) => {
 				rate: null,
 				read: false,
 				comment: null,
-				date: null,
+				dateAdded: new Date().toLocaleDateString(),
+				lastUpdated: new Date().toLocaleDateString(),
 			};
+			console.log(typeof currentBook.dateAdded);
 
 			fetchedData = currentBook;
 		});

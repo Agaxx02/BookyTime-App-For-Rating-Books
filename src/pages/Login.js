@@ -13,7 +13,7 @@ export default function Login() {
 
 	const login = (e) => {
 		e.preventDefault();
-		fetch(`${BASE_URL}/loginUser`, {
+		fetch(`${BASE_URL}/login/loginUser`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

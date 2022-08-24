@@ -42,6 +42,16 @@ export const filterAndSortBooks = (
 			case 'Author Z-A':
 				sorted = b.author.localeCompare(a.author);
 				break;
+			case 'Date Added ^':
+				var c = new Date(a.date);
+				var d = new Date(b.date);
+				sorted = c - d;
+				break;
+			case 'Date Added v':
+				var c = new Date(a.date);
+				var d = new Date(b.date);
+				sorted = d - c;
+				break;
 			default:
 				return sorted;
 		}

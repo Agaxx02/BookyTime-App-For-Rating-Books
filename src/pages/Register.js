@@ -14,7 +14,7 @@ export default function Register() {
 
 	const register = (e) => {
 		e.preventDefault();
-		fetch(`${BASE_URL}/registerUser`, {
+		fetch(`${BASE_URL}/register/registerUser`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

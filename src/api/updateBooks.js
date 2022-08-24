@@ -1,7 +1,7 @@
 import { BASE_URL } from './config';
 
 export const updateBooks = (books, credentials) => {
-	fetch(`${BASE_URL}/addBooks`, {
+	fetch(`${BASE_URL}/library/addBooks`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

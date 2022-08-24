@@ -39,6 +39,7 @@ export default function Dashboard() {
 		}
 
 		data.push(currentBook);
+		console.log(data);
 		updateBooks(data, credentials);
 		setMessage('Book successfully added');
 	};

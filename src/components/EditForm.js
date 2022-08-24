@@ -24,6 +24,7 @@ function EditForm(props) {
 			) {
 				data[i].rate = rate;
 				data[i].comment = comment;
+				data[i].lastUpdated = new Date();
 			}
 		}
 		updateBooks(data, credentials);
