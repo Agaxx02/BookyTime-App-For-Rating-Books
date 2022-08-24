@@ -1,5 +1,18 @@
 # BookyTime
 
- ### BookyTime is a website that can be used for keeping track with all of the books that you have read, rating them and commenting on them.
+ #### BookyTime is a web app that can be used to track of books you want to read and books you already read by rating and commenting them.
 
-It was built using React, Node, Express, and MongoDB
+## Technologies used:
+- React
+- React queries
+- SASS
+
+## To be added:
+- Sorting by date added and date read
+- Possibility to search for books by author and title
+- Adding my profile page with statistics
+- Possibility to see other people updates 
+
+## Contributions:
+Any contributions / comments / suggestions are always very welcome 
+
