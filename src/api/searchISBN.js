@@ -24,10 +24,7 @@ export const searchISBN = async (isbn) => {
 				dateAdded: new Date(),
 				lastUpdated: new Date(),
 			};
-			console.log(
-				typeof currentBook.dateAdded,
-				typeof currentBook.lastUpdated
-			);
+
 			fetchedData = currentBook;
 		});
 	return fetchedData;

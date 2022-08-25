@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
-import { getBooks } from '../api/getBooks';
 import { useQuery } from '@tanstack/react-query';
 import { updateBooks } from '../api/updateBooks';
 import { filterAndSortBooks } from '../api/filterAndSortBooks';
@@ -23,13 +22,12 @@ export default function Library() {
 	const [sort, setSort] = useState('Highest Rate');
 	const navigate = useNavigate();
 
-	let { data, isLoading } = useQuery(['books'], () => {
+	let { data } = useQuery(['books'], () => {
 		return data;
 	});
 
 	useEffect(() => {
 		setBooks(data);
-		console.log(books);
 	}, [data]);
 
 	const dashboard = () => {
@@ -105,7 +103,6 @@ export default function Library() {
 						showUnfinished,
 						sort
 					).map((book, index) => {
-						//console.log(typeof book.dateAdded);
 						return (
 							<div className='book' key={book._id}>
 								<img
@@ -113,26 +110,29 @@ export default function Library() {
 									src={book.cover}
 									alt='Book cover'
 								></img>
-								{isLoading ? null : (
-									<section className='item-b'>
-										<h4>Title: {book.title}</h4>
-										<h4>Author: {book.author}</h4>
-										<h4>Number of pages: {book.numOfPages} </h4>
 
-										{/* <h4>
-											Date Added:
-											{book.dateAdded.toLocaleDateString()}
-										</h4>
-										<h4>
-											Last updated:
-											{book.lastUpdated.toLocaleDateString()}
-										</h4> */}
+								<section className='item-b'>
+									<h4>Title: {book.title}</h4>
+									<h4>Author: {book.author}</h4>
+									<h4>Number of pages: {book.numOfPages} </h4>
+									<h4>
+										Date Added:{' '}
+										{new Date(book.dateAdded).toLocaleDateString(
+											'en-US'
+										)}
+									</h4>
+									<h4>
+										Last Updated:{' '}
+										{new Date(book.lastUpdated).toLocaleDateString(
+											'en-US'
+										)}
+									</h4>
 
-										{book.rate ? (
-											<h4>Your rate: {book.rate} </h4>
-										) : null}
-									</section>
-								)}
+									{book.rate ? (
+										<h4>Your rate: {book.rate} </h4>
+									) : null}
+								</section>
+
 								<section className='item-c'>
 									<button
 										onClick={(e) => {
