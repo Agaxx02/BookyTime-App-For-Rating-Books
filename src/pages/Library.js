@@ -23,9 +23,8 @@ export default function Library() {
 	const [sort, setSort] = useState('Highest Rate');
 	const navigate = useNavigate();
 
-	let { data } = useQuery(['books'], () => {
-		console.log(data);
-		return getBooks(credentials);
+	let { data, isLoading } = useQuery(['books'], () => {
+		return data;
 	});
 
 	useEffect(() => {
@@ -106,6 +105,7 @@ export default function Library() {
 						showUnfinished,
 						sort
 					).map((book, index) => {
+						//console.log(typeof book.dateAdded);
 						return (
 							<div className='book' key={book._id}>
 								<img
@@ -113,24 +113,26 @@ export default function Library() {
 									src={book.cover}
 									alt='Book cover'
 								></img>
-								<section className='item-b'>
-									<h4>Title: {book.title}</h4>
-									<h4>Author: {book.author}</h4>
-									<h4>Number of pages: {book.numOfPages} </h4>
+								{isLoading ? null : (
+									<section className='item-b'>
+										<h4>Title: {book.title}</h4>
+										<h4>Author: {book.author}</h4>
+										<h4>Number of pages: {book.numOfPages} </h4>
 
-									<h4>
-										Date Added:
-										{book.dateAdded}
-									</h4>
-									<h4>
-										Last updated:
-										{book.lastUpdated}
-									</h4>
+										{/* <h4>
+											Date Added:
+											{book.dateAdded.toLocaleDateString()}
+										</h4>
+										<h4>
+											Last updated:
+											{book.lastUpdated.toLocaleDateString()}
+										</h4> */}
 
-									{book.rate ? (
-										<h4>Your rate: {book.rate} </h4>
-									) : null}
-								</section>
+										{book.rate ? (
+											<h4>Your rate: {book.rate} </h4>
+										) : null}
+									</section>
+								)}
 								<section className='item-c'>
 									<button
 										onClick={(e) => {

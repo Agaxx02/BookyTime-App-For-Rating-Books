@@ -43,14 +43,10 @@ export const filterAndSortBooks = (
 				sorted = b.author.localeCompare(a.author);
 				break;
 			case 'Date Added ^':
-				var c = new Date(a.date);
-				var d = new Date(b.date);
-				sorted = c - d;
+				sorted = a.dateAdded - b.dateAdded;
 				break;
 			case 'Date Added v':
-				var c = new Date(a.date);
-				var d = new Date(b.date);
-				sorted = d - c;
+				sorted = a.dateAdded - b.dateAdded;
 				break;
 			default:
 				return sorted;
