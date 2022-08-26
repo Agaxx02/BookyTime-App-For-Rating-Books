@@ -1,24 +1,29 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { updateBooks } from '../api/updateBooks';
 import { getBooks } from '../api/getBooks';
-import { useQuery } from '@tanstack/react-query';
 import { searchISBN } from '../api/searchISBN';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Dashboard() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
-
+	const [books, setBooks] = useState(null);
 	const [isbnNumber, setIsbnNumber] = useState(null);
 	const [currentBook, setCurrentBook] = useState(null);
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
-	const { data } = useQuery(['books'], () => {
+	let { data } = useQuery(['books'], () => {
 		return getBooks(credentials);
 	});
+
+	useEffect(() => {
+		setBooks(data);
+		console.log(data);
+	}, [data]);
 
 	const search = async (isbn) => {
 		searchISBN(isbn).then((responseJSON) => {
@@ -27,20 +32,22 @@ export default function Dashboard() {
 	};
 
 	const addBook = () => {
-		for (let i = 0; i < data.length; i++) {
-			if (
-				data[i].title === currentBook.title &&
-				data[i].numOfPages === currentBook.numOfPages
-			) {
-				setMessage('Book already added');
+		if (books) {
+			for (let i = 0; i < books.length; i++) {
+				if (
+					books[i].title === currentBook.title &&
+					books[i].numOfPages === currentBook.numOfPages
+				) {
+					setMessage('Book already added');
 
-				return;
+					return;
+				}
 			}
 		}
 
-		data.push(currentBook);
-		console.log(data);
-		updateBooks(data, credentials);
+		books.push(currentBook);
+		console.log(books);
+		updateBooks(books, credentials);
 		setMessage('Book successfully added');
 	};
 

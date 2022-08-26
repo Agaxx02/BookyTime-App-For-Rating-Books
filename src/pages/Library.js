@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
-import { useQuery } from '@tanstack/react-query';
 import { updateBooks } from '../api/updateBooks';
+import { getBooks } from '../api/getBooks';
 import { filterAndSortBooks } from '../api/filterAndSortBooks';
 import EditForm from '../components/EditForm';
 import PageCounter from '../components/PageCounter';
@@ -13,7 +14,8 @@ export default function Library() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
-	const [books, setBooks] = useState([]);
+	const [books, setBooks] = useState(null);
+	const [booksLoaded, setBooksLoaded] = useState(false);
 	const [showEdit, setShowEdit] = useState(false);
 	const [confirmDelete, setConfirmDelete] = useState(false);
 	const [currentBook, setCurrentBook] = useState('');
@@ -23,11 +25,12 @@ export default function Library() {
 	const navigate = useNavigate();
 
 	let { data } = useQuery(['books'], () => {
-		return data;
+		return getBooks(credentials);
 	});
 
 	useEffect(() => {
 		setBooks(data);
+		console.log(data);
 	}, [data]);
 
 	const dashboard = () => {
@@ -54,7 +57,7 @@ export default function Library() {
 			<button onClick={logout} className='button'>
 				Logout
 			</button>
-			<PageCounter props={data} />
+			<PageCounter props={books} />
 			<section>
 				<input
 					type='checkbox'
@@ -97,8 +100,8 @@ export default function Library() {
 			</section>
 			{
 				<section>
-					{filterAndSortBooks(
-						data,
+					{/* {filterAndSortBooks(
+						books,
 						showFinished,
 						showUnfinished,
 						sort
@@ -140,7 +143,6 @@ export default function Library() {
 											if (books[index].title === book.title) {
 												books[index].read = !books[index].read;
 												books[index].lastUpdated = new Date();
-												data = books;
 												setBooks(
 													[...books],
 													updateBooks(books, credentials)
@@ -188,7 +190,7 @@ export default function Library() {
 								) : null}
 							</div>
 						);
-					})}
+					})} */}
 				</section>
 			}
 		</div>
