@@ -16,14 +16,15 @@ export default function Dashboard() {
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 
-	let { data } = useQuery(['books'], () => {
-		return getBooks(credentials);
-	});
-
 	useEffect(() => {
-		setBooks(data);
-		console.log(data);
-	}, [data]);
+		async function fetchData(credentials) {
+			await getBooks(credentials).then((data) => {
+				setBooks(data);
+			});
+		}
+		fetchData(credentials);
+		console.log(books);
+	}, []);
 
 	const search = async (isbn) => {
 		searchISBN(isbn).then((responseJSON) => {
@@ -57,6 +58,7 @@ export default function Dashboard() {
 
 	const logout = () => {
 		setCredentials(null);
+
 		navigate('/');
 	};
 
