@@ -16,6 +16,5 @@ export const getBooks = async (credentials) => {
 			let books = obj.books;
 			fetchedData = books;
 		});
-	console.log(fetchedData);
 	return fetchedData;
 };

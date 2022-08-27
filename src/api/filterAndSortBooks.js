@@ -4,7 +4,6 @@ export const filterAndSortBooks = (
 	showUnfinished,
 	sort
 ) => {
-	console.log(books);
 	let filtered = books.filter((book) => {
 		if (showFinished && showUnfinished) {
 			return book;
@@ -44,10 +43,16 @@ export const filterAndSortBooks = (
 				sorted = b.author.localeCompare(a.author);
 				break;
 			case 'Date Added ^':
-				sorted = a.dateAdded - b.dateAdded;
+				sorted = new Date(a.dateAdded) - new Date(b.dateAdded);
 				break;
 			case 'Date Added v':
-				sorted = a.dateAdded - b.dateAdded;
+				sorted = new Date(b.dateAdded) - new Date(a.dateAdded);
+				break;
+			case 'Date Updated ^':
+				sorted = new Date(a.lastUpdated) - new Date(a.lastUpdated);
+				break;
+			case 'Date Updated v':
+				sorted = new Date(b.lastUpdated) - new Date(a.lastUpdated);
 				break;
 			default:
 				return sorted;
@@ -56,6 +61,5 @@ export const filterAndSortBooks = (
 		return sorted;
 	});
 
-	console.log(filtered);
 	return filtered;
 };

@@ -4,7 +4,6 @@ import { CredentialsContext } from '../App';
 import { updateBooks } from '../api/updateBooks';
 import { getBooks } from '../api/getBooks';
 import { searchISBN } from '../api/searchISBN';
-import { useQuery } from '@tanstack/react-query';
 
 export default function Dashboard() {
 	const [credentials, setCredentials] = useContext(
@@ -23,32 +22,39 @@ export default function Dashboard() {
 			});
 		}
 		fetchData(credentials);
-		console.log(books);
-	}, []);
+	}, [credentials]);
 
 	const search = async (isbn) => {
+		if (isbn === null || isbn === '') {
+			return;
+		}
 		searchISBN(isbn).then((responseJSON) => {
 			setCurrentBook(responseJSON);
 		});
 	};
 
 	const addBook = () => {
-		if (books) {
-			for (let i = 0; i < books.length; i++) {
-				if (
-					books[i].title === currentBook.title &&
-					books[i].numOfPages === currentBook.numOfPages
-				) {
-					setMessage('Book already added');
+		if (books === undefined || books === null || books === []) {
+			setBooks([currentBook], updateBooks(currentBook, credentials));
+			setMessage('Book successfully added');
+			return;
+		}
+		for (let i = 0; i < books.length; i++) {
+			if (
+				books[i].title === currentBook.title &&
+				books[i].numOfPages === currentBook.numOfPages
+			) {
+				setMessage('Book already added');
 
-					return;
-				}
+				return;
 			}
 		}
-
-		books.push(currentBook);
-		console.log(books);
-		updateBooks(books, credentials);
+		let copied = books;
+		copied = [...copied, currentBook];
+		setBooks(
+			(oldBooks) => [...oldBooks, currentBook],
+			updateBooks(copied, credentials)
+		);
 		setMessage('Book successfully added');
 	};
 
