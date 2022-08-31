@@ -34,17 +34,17 @@ export default function Login() {
 	};
 
 	return (
-		<div className='login'>
-			<h1>Login</h1>
+		<div>
+			<h1 className='pageTitle'>Login</h1>
 			{error && <span className='errorMessage'>{error}</span>}
-			<form onSubmit={login}>
-				<label htmlFor='username'>Username</label>
+			<form className='authForm' onSubmit={login}>
+				<label htmlFor='username'>Username:</label>
 				<input
 					id='username'
 					onChange={(e) => setUsername(e.target.value)}
 				></input>
 				<br />
-				<label htmlFor='password'>Password</label>
+				<label htmlFor='password'>Password:</label>
 				<input
 					onChange={(e) => setPassword(e.target.value)}
 					type='password'

@@ -36,13 +36,16 @@ export default function Register() {
 	};
 
 	return (
-		<div className='register'>
-			<h1>Register</h1>
-			{error && <span className='errorMessage'>{error}</span>}
-			<h3>
-				Username and password have to contain only English letters
-			</h3>
-			<form onSubmit={register}>
+		<div>
+			<h1 className='pageTitle'>Register</h1>
+			{error ? (
+				<span className='errorMessage'>{error}</span>
+			) : (
+				<h3 className='registerMessage'>
+					Username and password have to contain only English letters
+				</h3>
+			)}
+			<form className='authForm' onSubmit={register}>
 				<label htmlFor='username'>Username</label>
 				<input
 					id='username'
