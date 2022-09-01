@@ -70,12 +70,14 @@ export default function Dashboard() {
 
 	return (
 		<div className='dashboard'>
-			<h1>Hello {credentials && credentials.username}!</h1>
+			<h1 className='pageTitle'>
+				Hello {credentials && credentials.username}!
+			</h1>
 
-			<button className='button' onClick={library}>
+			<button className='smallerButton' onClick={library}>
 				My Library
 			</button>
-			<button onClick={logout} className='button'>
+			<button onClick={logout} className='smallerButton'>
 				Logout
 			</button>
 			<form
@@ -84,7 +86,7 @@ export default function Dashboard() {
 					search(isbnNumber);
 				}}
 			>
-				<label htmlFor='ISBNNumber'>ISBN Number</label>
+				<label htmlFor='ISBNNumber'>ISBN Number:</label>
 				<input
 					id='ISBNNumber'
 					onChange={(e) => {
@@ -93,15 +95,19 @@ export default function Dashboard() {
 						setCurrentBook(null);
 					}}
 				></input>
-				<button className='button' type='submit'>
+				<button className=' smallerButton' type='submit'>
 					Search
 				</button>
 				{currentBook && (
-					<div className='searchResult'>
-						<img src={currentBook.cover} alt='Book cover'></img>
+					<div>
+						<img
+							className='img'
+							src={currentBook.cover}
+							alt='Book cover'
+						></img>
 						<h2>Title: {currentBook.title}</h2>
 						<h3>Author: {currentBook.author}</h3>
-						<button className='button' onClick={addBook}>
+						<button className=' smallerButton' onClick={addBook}>
 							Add book
 						</button>
 					</div>

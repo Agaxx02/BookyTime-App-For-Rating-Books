@@ -39,10 +39,10 @@ export default function Library() {
 	};
 
 	return (
-		<div className='library'>
-			<h1>Your library</h1>
+		<div>
+			<h1 className='pageTitle'>Your library</h1>
 			<button
-				className='button'
+				className='smallerButton'
 				onClick={(e) => {
 					e.preventDefault();
 					dashboard();
@@ -51,30 +51,31 @@ export default function Library() {
 				Search books
 			</button>
 
-			<button onClick={logout} className='button'>
+			<button onClick={logout} className='smallerButton'>
 				Logout
 			</button>
-			<PageCounter props={books} />
-			<section>
-				<input
-					type='checkbox'
-					id='finished'
-					defaultChecked
-					onChange={() => {
-						setShowFinished(!showFinished);
-					}}
-				></input>
-				<label htmlFor='finished'>Finished</label>
-				<input
-					type='checkbox'
-					id='unfinished'
-					defaultChecked
-					onChange={() => {
-						setShowUnfinished(!showUnfinished);
-					}}
-				></input>
-				<label htmlFor='unfinished'>Unfinished</label>
-				<br />
+			<section className='libraryInfo'>
+				<PageCounter props={books} />
+				<div className='filters'>
+					<input
+						type='checkbox'
+						id='finished'
+						defaultChecked
+						onChange={() => {
+							setShowFinished(!showFinished);
+						}}
+					></input>
+					<label htmlFor='finished'>Finished</label>
+					<input
+						type='checkbox'
+						id='unfinished'
+						defaultChecked
+						onChange={() => {
+							setShowUnfinished(!showUnfinished);
+						}}
+					></input>
+					<label htmlFor='unfinished'>Unfinished</label>
+				</div>
 				<span>Sort by:</span>
 				<select
 					onChange={(e) => {
@@ -107,23 +108,23 @@ export default function Library() {
 								return (
 									<div className='book' key={book._id}>
 										<img
-											className='item-a cover'
+											className=' cover'
 											src={book.cover}
 											alt='Book cover'
 										></img>
 
-										<section className='item-b'>
+										<section className='info'>
 											<h4>Title: {book.title}</h4>
 											<h4>Author: {book.author}</h4>
 											<h4>Number of pages: {book.numOfPages} </h4>
 											<h4>
-												Date Added:{' '}
+												Date Added:
 												{new Date(book.dateAdded).toLocaleDateString(
 													'en-US'
 												)}
 											</h4>
 											<h4>
-												Last Updated:{' '}
+												Last Updated:
 												{new Date(
 													book.lastUpdated
 												).toLocaleDateString('en-US')}
@@ -134,8 +135,9 @@ export default function Library() {
 											) : null}
 										</section>
 
-										<section className='item-c'>
+										<section className='editButtons'>
 											<button
+												className='smallerButton'
 												onClick={(e) => {
 													e.preventDefault();
 													if (books[index].title === book.title) {
@@ -151,6 +153,7 @@ export default function Library() {
 												{book.read ? 'Unfinished' : 'Finished'}
 											</button>
 											<button
+												className='smallerButton'
 												onClick={(e) => {
 													e.preventDefault();
 													setConfirmDelete(true);
@@ -169,6 +172,7 @@ export default function Library() {
 											) : null}
 											{book.read && (
 												<button
+													className='smallerButton'
 													onClick={(e) => {
 														setShowEdit(true);
 														setCurrentBook(book);

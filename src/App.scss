@@ -6,15 +6,16 @@ ul,
 ol {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
 }
 
 body {
+	box-sizing: border-box;
 	margin: 0;
 	font-family: 'Quicksand', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
+	width: 100%;
 }
 
 .authForm {
@@ -24,7 +25,9 @@ body {
 	border-radius: 16px;
 	height: 50vh;
 	padding-top: 10%;
-	box-shadow: 0 12px 16px 0 $blueColor, 0 17px 50px 0 $blueColor;
+	box-shadow: 0 5px 5px 0 $blueColor, 0 17px 50px 0 $blueColor;
+	font-size: 1rem;
+
 	label {
 		display: block;
 		font-size: clamp(15px, 0.2rem, 1.5rem);
@@ -39,114 +42,79 @@ body {
 		width: clamp(150px, 8vw, 15vw);
 	}
 }
+.dashboard {
+	label,
+	input {
+		display: inline-block;
+		margin: 0 3px;
+	}
+}
+.img {
+	border: 1px solid black;
+	height: 200px;
+}
+.book {
+	padding: 20px 0 20px 20px;
+	margin: 5px 0;
+	border-bottom: 1px solid black;
+	display: grid;
+	grid-template-columns: [cover] 25% [info] 45% [editButtons] 30%;
+	grid-template-areas: 'cover info editButtons';
+	.cover {
+		grid-area: cover;
+		width: 100%;
+		margin: 0 auto;
+	}
+	.info {
+		grid-area: info;
+		h4 {
+			font-size: 0.7rem;
+			margin: 2px 0 2px 20px;
+			text-align: start;
+		}
+	}
+	.editButtons {
+		grid-area: editButtons;
+		margin: 0 auto;
+		button {
+			margin: 3px;
+			width: 70px;
+			display: block;
+		}
+	}
+}
+.filters {
+	margin: 0 auto 10px;
+}
 
-// .dashboard {
-// 	h1 {
-// 		font-size: clamp(20%, 4rem, 5rem);
-// 		letter-spacing: 0.5rem;
-// 	}
-// 	button {
-// 		margin: 0 10px 20px 10px;
-// 	}
-// 	img {
-// 		width: 180px;
-// 	}
-// }
-// .library {
-// 	h1 {
-// 		font-size: clamp(20%, 4rem, 5rem);
-// 		letter-spacing: 0.5rem;
-// 	}
-// 	button {
-// 		margin: 0 10px 20px 10px;
-// 	}
-// 	.book {
-// 		.cover {
-// 			height: 140px;
-// 		}
-// 		h4 {
-// 			margin: 0;
-// 		}
+.popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.2);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.popup-inner {
+	position: relative;
+	padding: 32px;
+	width: 100%;
+	max-width: 640px;
+	background-color: #fff;
+}
 
-// 		display: grid;
-// 		width: 60%;
-// 		height: 100%;
-// 		border: 1px solid black;
-// 		font-size: 0.8rem;
-// 		margin: 50px auto 0;
-// 		grid-template-columns: 1fr 180px 5fr 3fr;
-// 		grid-template-rows: [top-margin] 30px [cover-start]70px [cover-end]70px [bottom-margin]30px;
-// 		grid-template-areas:
-// 			'. . . .'
-// 			'. . info button'
-// 			'. cover edit edit'
-// 			'footer footer footer footer';
-// 	}
-// 	.item-a {
-// 		grid-area: cover;
-// 		grid-row-start: cover-start;
-// 		grid-row-end: 3;
-// 	}
-// 	.item-b {
-// 		grid-area: info;
-// 		text-align: left;
-// 	}
-// 	.item-c {
-// 		grid-area: button;
-// 		grid-row-start: cover-start;
-// 		grid-row-end: 3;
-// 	}
-// 	.popup {
-// 		position: fixed;
-// 		top: 0;
-// 		left: 0;
-// 		width: 100%;
-// 		height: 100vh;
-// 		background-color: rgba(0, 0, 0, 0.2);
-// 		display: flex;
-// 		justify-content: center;
-// 		align-items: center;
-// 	}
-// 	.popup-inner {
-// 		position: relative;
-// 		padding: 32px;
-// 		width: 100%;
-// 		max-width: 640px;
-// 		background-color: #fff;
-// 	}
-// 	.close-btn {
-// 		position: absolute;
-// 		top: 16px;
-// 		right: 16px;
-// 	}
-// 	.item-label1 {
-// 		grid-area: label1;
-// 	}
-// 	.item-label2 {
-// 		grid-area: label2;
-// 	}
-// 	.item-input1 {
-// 		grid-area: input1;
-// 	}
-// 	.item-input2 {
-// 		grid-area: input2;
-// 	}
-// 	.item-saveEdit {
-// 		grid-area: save;
-// 		width: 70px;
-// 		height: 30px;
-// 		margin: 0;
-// 	}
-// }
 .registerMessage {
 	display: block;
 	font-size: 1.25rem;
-	margin: 10px;
+	margin: 10px 10px 15px 10px;
 	font-weight: 200;
 }
 .errorMessage {
 	@extend .registerMessage;
-	color: red;
+	color: #ff0000;
 	font-weight: 400;
 }
 
@@ -170,10 +138,17 @@ body {
 	margin: 10px;
 	display: inline-block;
 	width: 90px;
+
 	font: {
 		size: clamp(0.5rem, 1.1rem, 2rem);
 		weight: 500;
 	}
+}
+
+.smallerButton {
+	@extend .button;
+	font-size: 0.7rem;
+	margin-bottom: 20px;
 }
 .button:hover {
 	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
@@ -204,5 +179,42 @@ body {
 		button {
 			margin-top: 10px;
 		}
+	}
+	.dashboard {
+		img {
+			border: 1px solid black;
+			max-height: 300px;
+		}
+		label,
+		input {
+			display: inline-block;
+			margin: 0 3px;
+		}
+		button {
+			display: inline-block;
+		}
+	}
+	.book {
+		padding: 20px;
+		margin: 0 auto 10px;
+		min-height: 150px;
+		width: 60%;
+		border: 1px solid black;
+		.cover {
+			width: 100px;
+		}
+		.info {
+			h4 {
+				font-size: 0.9rem;
+			}
+		}
+		.editButtons {
+			button {
+				margin: 10px;
+			}
+		}
+	}
+	.libraryInfo {
+		margin-bottom: 30px;
 	}
 }

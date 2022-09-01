@@ -16,7 +16,7 @@ function PageCounter(props) {
 		}
 	};
 
-	return <div>Page Counter: {countPages(props)}</div>;
+	return <h4>Page Counter: {countPages(props)}</h4>;
 }
 
 export default PageCounter;
