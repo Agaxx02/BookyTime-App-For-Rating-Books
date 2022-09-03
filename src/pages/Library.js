@@ -168,6 +168,7 @@ export default function Library() {
 													setPopup={setConfirmDelete}
 													setBooks={setBooks}
 													bookToDelete={book}
+													allBooks={books}
 												/>
 											) : null}
 											{book.read && (
@@ -186,6 +187,7 @@ export default function Library() {
 											<EditForm
 												props={currentBook}
 												popup={showEdit}
+												allBooks={books}
 												setPopup={setShowEdit}
 												credentials={credentials}
 											/>

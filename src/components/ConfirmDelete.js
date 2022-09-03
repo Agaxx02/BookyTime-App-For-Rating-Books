@@ -1,23 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CredentialsContext } from '../App';
 import { useContext } from 'react';
-import { getBooks } from '../api/getBooks';
-import { useQuery } from '@tanstack/react-query';
 import { updateBooks } from '../api/updateBooks';
 
 function ConfirmDelete(props) {
 	const [credentials] = useContext(CredentialsContext);
-	const { data } = useQuery(['books'], () => {
-		return getBooks(credentials);
-	});
+	const [books] = useState(props.allBooks);
 
-	const deleteBook = (data, bookToDelete) => {
-		let books = data;
+	const deleteBook = (books, bookToDelete) => {
 		books.forEach((book, index) => {
 			if (book.title === bookToDelete.title) {
 				books.splice(index, 1);
-				data = books;
-				props.setBooks([...data], updateBooks(data, credentials));
+				props.setBooks([...books], updateBooks(books, credentials));
 			}
 		});
 	};
@@ -47,7 +41,7 @@ function ConfirmDelete(props) {
 				<button
 					onClick={() => {
 						props.setPopup(false);
-						deleteBook(data, props.bookToDelete);
+						deleteBook(books, props.bookToDelete);
 					}}
 				>
 					Delete

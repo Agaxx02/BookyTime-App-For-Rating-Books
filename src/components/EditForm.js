@@ -1,8 +1,6 @@
 import React from 'react';
 import { useContext, useState } from 'react';
 import { CredentialsContext } from '../App';
-import { getBooks } from '../api/getBooks';
-import { useQuery } from '@tanstack/react-query';
 import { updateBooks } from '../api/updateBooks';
 
 function EditForm(props) {
@@ -11,23 +9,20 @@ function EditForm(props) {
 	const [comment, setComment] = useState(null);
 	const [currentBook] = useState(props.props);
 	const [error, setError] = useState(null);
-
-	const { data } = useQuery(['books'], () => {
-		return getBooks(credentials);
-	});
+	const [books] = useState(props.allBooks);
 
 	const saveEdit = () => {
-		for (let i = 0; i < data.length; i++) {
+		for (let i = 0; i < books.length; i++) {
 			if (
-				data[i].title === currentBook.title &&
-				data[i].numOfPages === currentBook.numOfPages
+				books[i].title === currentBook.title &&
+				books[i].numOfPages === currentBook.numOfPages
 			) {
-				data[i].rate = rate;
-				data[i].comment = comment;
-				data[i].lastUpdated = new Date();
+				books[i].rate = rate;
+				books[i].comment = comment;
+				books[i].lastUpdated = new Date();
 			}
 		}
-		updateBooks(data, credentials);
+		updateBooks(books, credentials);
 		props.setPopup(false);
 	};
 
