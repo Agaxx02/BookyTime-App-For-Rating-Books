@@ -18,34 +18,30 @@ function ConfirmDelete(props) {
 
 	return props.confirm ? (
 		<div className='popup'>
-			<div className='popup-inner'>
-				<button
-					className='close-btn '
-					onClick={() => {
-						props.setPopup(false);
-					}}
-				>
-					Close
-				</button>
+			<div className='popup-inner '>
 				<h2>
 					Are you sure you want to delete this book? This process
 					cannot be undone.
 				</h2>
-				<button
-					onClick={() => {
-						props.setPopup(false);
-					}}
-				>
-					Close
-				</button>
-				<button
-					onClick={() => {
-						props.setPopup(false);
-						deleteBook(books, props.bookToDelete);
-					}}
-				>
-					Delete
-				</button>
+				<section>
+					<button
+						className='smallerButton '
+						onClick={() => {
+							props.setPopup(false);
+						}}
+					>
+						Close
+					</button>
+					<button
+						className='smallerButton '
+						onClick={() => {
+							props.setPopup(false);
+							deleteBook(books, props.bookToDelete);
+						}}
+					>
+						Delete
+					</button>
+				</section>
 			</div>
 		</div>
 	) : (

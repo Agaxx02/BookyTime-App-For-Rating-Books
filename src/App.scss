@@ -100,10 +100,31 @@ body {
 }
 .popup-inner {
 	position: relative;
+	justify-content: center;
+	align-items: center;
 	padding: 32px;
 	width: 100%;
 	max-width: 640px;
 	background-color: #fff;
+	h2 {
+		font-size: 1rem;
+		font-weight: 400;
+	}
+
+	section {
+		width: 100%;
+		margin: 10px;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-evenly;
+		label {
+			width: 30%;
+		}
+		textarea,
+		input {
+			width: 70%;
+		}
+	}
 }
 
 .registerMessage {

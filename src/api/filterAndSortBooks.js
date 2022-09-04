@@ -49,7 +49,7 @@ export const filterAndSortBooks = (
 				sorted = new Date(b.dateAdded) - new Date(a.dateAdded);
 				break;
 			case 'Date Updated ^':
-				sorted = new Date(a.lastUpdated) - new Date(a.lastUpdated);
+				sorted = new Date(a.lastUpdated) - new Date(b.lastUpdated);
 				break;
 			case 'Date Updated v':
 				sorted = new Date(b.lastUpdated) - new Date(a.lastUpdated);

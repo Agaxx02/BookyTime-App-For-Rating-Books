@@ -30,14 +30,6 @@ function EditForm(props) {
 		<div className='popup'>
 			<div className='popup-inner'>
 				{error}
-				<button
-					className='close-btn '
-					onClick={() => {
-						props.setPopup(false);
-					}}
-				>
-					Close
-				</button>
 				<form
 					onSubmit={(e) => {
 						e.preventDefault();
@@ -48,28 +40,42 @@ function EditForm(props) {
 						saveEdit();
 					}}
 				>
-					<label htmlFor='rate'>Rate</label>
-					<input
-						id='rate'
-						type='number'
-						defaultValue={props.props.rate}
-						onChange={(e) => {
-							e.preventDefault();
-							setError(null);
-							setRate(e.target.value);
+					<section>
+						<label htmlFor='rate'>Rate</label>
+						<input
+							id='rate'
+							type='number'
+							defaultValue={props.props.rate}
+							onChange={(e) => {
+								e.preventDefault();
+								setError(null);
+								setRate(e.target.value);
+							}}
+						></input>
+					</section>
+					<section>
+						<label htmlFor='comment'>Comment</label>
+						<textarea
+							id='comment'
+							defaultValue={props.props.comment}
+							onChange={(e) => {
+								e.preventDefault();
+								setError(null);
+								setComment(e.target.value);
+							}}
+						></textarea>
+					</section>
+					<button className='smallerButton ' type='submit'>
+						Save
+					</button>
+					<button
+						className='smallerButton '
+						onClick={() => {
+							props.setPopup(false);
 						}}
-					></input>
-					<label htmlFor='comment'>Comment</label>
-					<textarea
-						id='comment'
-						defaultValue={props.props.comment}
-						onChange={(e) => {
-							e.preventDefault();
-							setError(null);
-							setComment(e.target.value);
-						}}
-					></textarea>
-					<button type='submit'>Save</button>
+					>
+						Close
+					</button>
 				</form>
 			</div>
 		</div>
