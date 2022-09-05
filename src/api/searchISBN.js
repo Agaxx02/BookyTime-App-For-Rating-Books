@@ -3,29 +3,21 @@ import { handleErrors } from './handleErrors';
 export const searchISBN = async (isbn) => {
 	let fetchedData = null;
 	await fetch(
-		`https://api.allorigins.win/get?url=${encodeURIComponent(
-			`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
-		)}`
+		typeof isbn === Number
+			? `https://api.allorigins.win/get?url=${encodeURIComponent(
+					`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
+			  )}`
+			: `https://api.allorigins.win/get?url=${encodeURIComponent(
+					`http://openlibrary.org/search.json?q=${isbn}`
+			  )}`
 	)
 		.then(handleErrors)
 		.then((data) => {
 			let obj = data.contents;
 			obj = JSON.parse(obj);
-			let currentBook = {
-				title: obj[`ISBN:${isbn}`]['title'],
-				numOfPages: obj[`ISBN:${isbn}`]['number_of_pages'],
-				author: obj[`ISBN:${isbn}`]['authors'][0]['name'],
-				cover: obj[`ISBN:${isbn}`]['cover']
-					? obj[`ISBN:${isbn}`]['cover']['medium']
-					: './No_cover.jpg',
-				rate: null,
-				read: false,
-				comment: null,
-				dateAdded: new Date(),
-				lastUpdated: new Date(),
-			};
-
-			fetchedData = currentBook;
+			console.log(obj.docs);
+			fetchedData = obj.docs;
 		});
+
 	return fetchedData;
 };
