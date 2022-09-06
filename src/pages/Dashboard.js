@@ -59,6 +59,7 @@ export default function Dashboard() {
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
+					setShowResults(true);
 					search(isbnNumber);
 				}}
 			>
@@ -68,7 +69,7 @@ export default function Dashboard() {
 					onChange={(e) => {
 						setIsbnNumber(e.target.value);
 						setMessage('');
-						setShowResults(true);
+						setShowResults(false);
 					}}
 				></input>
 				<button className=' smallerButton' type='submit'>
@@ -76,7 +77,7 @@ export default function Dashboard() {
 				</button>
 				{showResults ? (
 					<SearchResults
-						inputText={searchResults}
+						searchResults={searchResults}
 						books={books}
 						credentials={credentials}
 					/>
