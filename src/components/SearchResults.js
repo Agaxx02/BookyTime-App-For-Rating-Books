@@ -46,7 +46,7 @@ export default function SearchResults(props) {
 									<img
 										className='cover'
 										alt='cover'
-										src='./No_cover.jpg'
+										src='https://i.ibb.co/xCL558g/No-Cover.jpg'
 									></img>
 								) : (
 									<img
@@ -70,7 +70,7 @@ export default function SearchResults(props) {
 												author: book.author_name.toString(),
 												cover: book.cover_i
 													? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-													: './No_cover.jpg',
+													: 'https://i.ibb.co/xCL558g/No-Cover.jpg',
 												rate: null,
 												read: false,
 												comment: null,
