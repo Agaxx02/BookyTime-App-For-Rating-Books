@@ -1,6 +1,6 @@
 import { handleErrors } from './handleErrors';
 
-export const searchISBN = async (inputText) => {
+export const searchBooks = async (inputText) => {
 	let fetchedData = null;
 	await fetch(
 		typeof inputText === Number

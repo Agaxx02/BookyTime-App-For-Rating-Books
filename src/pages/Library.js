@@ -108,7 +108,7 @@ export default function Library() {
 								return (
 									<div className='book' key={book._id}>
 										<img
-											className=' cover'
+											className='cover'
 											src={book.cover}
 											alt='Book cover'
 										></img>

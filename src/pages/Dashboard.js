@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CredentialsContext } from '../App';
 import { getBooks } from '../api/getBooks';
-import { searchISBN } from '../api/searchISBN';
+import { searchBooks } from '../api/searchBooks';
 import SearchResults from '../components/SearchResults';
 
 export default function Dashboard() {
@@ -10,7 +10,7 @@ export default function Dashboard() {
 		CredentialsContext
 	);
 	const [books, setBooks] = useState(null);
-	const [isbnNumber, setIsbnNumber] = useState(null);
+	const [inputText, setInputText] = useState(null);
 	const [searchResults, setSearchResults] = useState(null);
 	const [message, setMessage] = useState('');
 	const [showResults, setShowResults] = useState(false);
@@ -25,11 +25,11 @@ export default function Dashboard() {
 		fetchData(credentials);
 	}, [credentials]);
 
-	const search = async (isbn) => {
-		if (isbn === null || isbn === '') {
+	const search = async (inputText) => {
+		if (inputText === null || inputText === '') {
 			return;
 		}
-		searchISBN(isbn).then((responseJSON) => {
+		searchBooks(inputText).then((responseJSON) => {
 			setSearchResults(responseJSON);
 		});
 	};
@@ -60,14 +60,14 @@ export default function Dashboard() {
 				onSubmit={(e) => {
 					e.preventDefault();
 					setShowResults(true);
-					search(isbnNumber);
+					search(inputText);
 				}}
 			>
-				<label htmlFor='ISBNNumber'>ISBN Number:</label>
+				<label htmlFor='inputText'>Title or ISBN number:</label>
 				<input
-					id='ISBNNumber'
+					id='inputText'
 					onChange={(e) => {
-						setIsbnNumber(e.target.value);
+						setInputText(e.target.value);
 						setMessage('');
 						setShowResults(false);
 					}}
