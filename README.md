@@ -1,6 +1,6 @@
 # BookyTime
 
- #### [BookyTime](https://bookytime-app.herokuapp.com/) is a web app that can be used to track of books you want to read and books you already read by rating and commenting them. 
+ #### [BookyTime](https://bookytime-app.herokuapp.com/) is a web app that can be used to track of books you want to read and books you already read by rating and commenting them. App is connected to backend [BookyTime---Backend](https://github.com/Agaxx02/BookyTime---Backend) and OpenLibrary APIs.  
 
 ## Technologies used:
 - React
