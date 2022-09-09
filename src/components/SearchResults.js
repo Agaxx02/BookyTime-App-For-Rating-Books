@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { updateBooks } from '../api/updateBooks';
+import DetailedInfo from './DetailedInfo';
 
 export default function SearchResults(props) {
 	const [books, setBooks] = useState(props.books);
 	const [message, setMessage] = useState('');
+	const [showInfo, setShowInfo] = useState(false);
+	const [currentBook, setCurrentBook] = useState({});
 
 	const addBook = (currentBook) => {
 		if (books === undefined || books === null || books === []) {
@@ -81,11 +84,23 @@ export default function SearchResults(props) {
 									>
 										Add book
 									</button>
+									<button
+										className='smallerButton'
+										onClick={() => {
+											setCurrentBook(book);
+											setShowInfo(true);
+										}}
+									>
+										More info
+									</button>
 								</section>
 							</div>
 						);
 				  })
 				: null}
+			{showInfo ? (
+				<DetailedInfo book={currentBook} close={setShowInfo} />
+			) : null}
 		</div>
 	);
 }
