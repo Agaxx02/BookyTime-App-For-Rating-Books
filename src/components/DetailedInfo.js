@@ -11,7 +11,7 @@ export default function DetailedInfo(props) {
 						src={`https://covers.openlibrary.org/b/id/${props.book.cover_i}-M.jpg`}
 					></img>
 				</section>
-				<section className='info'>
+				<section className='info moreInfo'>
 					<h2>Title: {props.book.title}</h2>
 					<h2>Author: {props.book.author_name}</h2>
 					<h2>ISBN Number: {props.book.isbn[0]}</h2>
@@ -22,16 +22,21 @@ export default function DetailedInfo(props) {
 							: 'unknown'}
 					</h2>
 					<h2>Publisher: {props.book.publisher}</h2>
-					<h2>
-						Published: {props.book.publish_place},
-						{props.book.publish_date}
-					</h2>
-					<h2>
-						Subjects:{' '}
-						{props.book.subject_facet
-							? props.book.subject_facet + ', '
-							: 'unknown'}
-					</h2>
+					{props.book.publish_place ? (
+						<h2>
+							Published: {props.book.publish_place},
+							{props.book.publish_date}
+						</h2>
+					) : (
+						<h2>Published: {props.book.publish_date}</h2>
+					)}
+
+					{props.book.subject_facet ? (
+						<h2>
+							Subjects:
+							{props.book.subject_facet}
+						</h2>
+					) : null}
 				</section>
 				<section className='editButtons'>
 					<button
