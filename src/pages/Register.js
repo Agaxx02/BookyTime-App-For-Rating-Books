@@ -14,6 +14,10 @@ export default function Register() {
 
 	const register = (e) => {
 		e.preventDefault();
+		if (username.length > 15) {
+			setError('Username cannot be longer than 15 characters');
+			return;
+		}
 		fetch(`${BASE_URL}/register/registerUser`, {
 			method: 'POST',
 			headers: {
