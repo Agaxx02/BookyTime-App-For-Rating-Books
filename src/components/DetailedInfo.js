@@ -14,14 +14,24 @@ export default function DetailedInfo(props) {
 				<section className='info moreInfo'>
 					<h2>Title: {props.book.title}</h2>
 					<h2>Author: {props.book.author_name}</h2>
-					<h2>ISBN Number: {props.book.isbn[0]}</h2>
+					<h2>
+						ISBN Number:{' '}
+						{typeof props.book.isbn !== String
+							? props.book.isbn[0]
+							: props.book.isbn}
+					</h2>
 					<h2>
 						Number of pages:
 						{props.book.number_of_pages_median
 							? props.book.number_of_pages_median
 							: 'unknown'}
 					</h2>
-					<h2>Publisher: {props.book.publisher}</h2>
+					<h2>
+						Publisher:{' '}
+						{typeof props.book.publisher !== String
+							? props.book.publisher[0]
+							: props.book.publisher}
+					</h2>
 					{props.book.publish_place ? (
 						<h2>
 							Published: {props.book.publish_place},
