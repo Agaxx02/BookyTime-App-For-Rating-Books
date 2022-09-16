@@ -36,7 +36,8 @@ body {
 		margin: 10px;
 	}
 	input {
-		width: clamp(20px, 170px, 200px);
+		width: clamp(200px, 200px, 250px);
+		border: 2px solid black;
 	}
 	button {
 		position: relative;

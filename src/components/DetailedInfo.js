@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function DetailedInfo(props) {
+	console.log(props.book);
 	return (
 		<div className='popup'>
 			<div className='popup-inner book '>
@@ -15,7 +16,7 @@ export default function DetailedInfo(props) {
 					<h2>Title: {props.book.title}</h2>
 					<h2>Author: {props.book.author_name}</h2>
 					<h2>
-						ISBN Number:{' '}
+						ISBN Number:
 						{typeof props.book.isbn !== String
 							? props.book.isbn[0]
 							: props.book.isbn}
@@ -27,15 +28,19 @@ export default function DetailedInfo(props) {
 							: 'unknown'}
 					</h2>
 					<h2>
-						Publisher:{' '}
-						{typeof props.book.publisher !== String
-							? props.book.publisher[0]
-							: props.book.publisher}
+						Publishers:
+						{props.book.publisher.map((publisher, index) => {
+							if (index === props.book.publisher - 1) {
+								return <span key={index}> {publisher}</span>;
+							} else {
+								return <span key={index}> {publisher}, </span>;
+							}
+						})}
 					</h2>
 					{props.book.publish_place ? (
 						<h2>
 							Published: {props.book.publish_place},
-							{props.book.publish_date}
+							{props.book.publish_date[0]}
 						</h2>
 					) : (
 						<h2>Published: {props.book.publish_date}</h2>
@@ -44,7 +49,13 @@ export default function DetailedInfo(props) {
 					{props.book.subject_facet ? (
 						<h2>
 							Subjects:
-							{props.book.subject_facet}
+							{props.book.subject_facet.map((subject, index) => {
+								if (index === props.book.subject_facet.length - 1) {
+									return <span key={index}> {subject}</span>;
+								} else {
+									return <span key={index}> {subject}, </span>;
+								}
+							})}
 						</h2>
 					) : null}
 				</section>
