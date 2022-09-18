@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function DetailedInfo(props) {
-	console.log(props.book);
+	console.log(props.book, typeof props.book.publish_date);
 	return (
 		<div className='popup'>
 			<div className='popup-inner book '>
@@ -30,30 +30,34 @@ export default function DetailedInfo(props) {
 					<h2>
 						Publishers:
 						{props.book.publisher.map((publisher, index) => {
-							if (index === props.book.publisher - 1) {
+							if (index < 9) {
+								return <span key={index}> {publisher},</span>;
+							}
+							if (index === 10) {
 								return <span key={index}> {publisher}</span>;
 							} else {
-								return <span key={index}> {publisher}, </span>;
+								return null;
 							}
 						})}
 					</h2>
-					{props.book.publish_place ? (
-						<h2>
-							Published: {props.book.publish_place},
-							{props.book.publish_date[0]}
-						</h2>
+					{props.book.publish_date &&
+					typeof props.book.publish_date !== String ? (
+						<h2>Published: {props.book.publish_date[0]}</h2>
 					) : (
 						<h2>Published: {props.book.publish_date}</h2>
 					)}
+					{}
 
 					{props.book.subject_facet ? (
 						<h2>
 							Subjects:
 							{props.book.subject_facet.map((subject, index) => {
-								if (index === props.book.subject_facet.length - 1) {
+								if (index === 10) {
 									return <span key={index}> {subject}</span>;
-								} else {
+								} else if (index < 10) {
 									return <span key={index}> {subject}, </span>;
+								} else {
+									return null;
 								}
 							})}
 						</h2>
