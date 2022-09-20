@@ -46,7 +46,6 @@ export default function DetailedInfo(props) {
 					) : (
 						<h2>Published: {props.book.publish_date}</h2>
 					)}
-					{}
 
 					{props.book.subject_facet ? (
 						<h2>

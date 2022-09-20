@@ -38,7 +38,6 @@ export default function SearchResults(props) {
 
 	return (
 		<div>
-			{message}
 			<h3>Search results:</h3>
 
 			{props.searchResults !== null
@@ -62,11 +61,18 @@ export default function SearchResults(props) {
 								<section className='info'>
 									<h4>{book.title}</h4>
 									<h4>{book.author_name}</h4>
+									{message &&
+									currentBook.title === book.title &&
+									currentBook.last_modified_i ===
+										book.last_modified_i ? (
+										<h5>{message}</h5>
+									) : null}
 								</section>
 								<section className='editButtons'>
 									<button
 										className='smallerButton'
 										onClick={() => {
+											setCurrentBook(book);
 											addBook({
 												title: book.title,
 												numOfPages: book.number_of_pages_median,
