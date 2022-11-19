@@ -6,8 +6,8 @@ import { updateBooks } from '../api/updateBooks';
 import { getBooks } from '../api/getBooks';
 import { filterAndSortBooks } from '../api/filterAndSortBooks';
 import EditForm from '../components/EditForm';
-import PageCounter from '../components/PageCounter';
 import ConfirmDelete from '../components/ConfirmDelete';
+import { countPages } from '../api/countPages';
 
 export default function Library() {
 	const [credentials, setCredentials] = useContext(
@@ -30,8 +30,11 @@ export default function Library() {
 		}
 		fetchData(credentials);
 	}, [credentials]);
-	const dashboard = () => {
+	const goToDashboard = () => {
 		navigate('/dashboard');
+	};
+	const goToProfile = () => {
+		navigate('/profile');
 	};
 	const logout = () => {
 		setCredentials(null);
@@ -45,17 +48,19 @@ export default function Library() {
 				className='smallerButton'
 				onClick={(e) => {
 					e.preventDefault();
-					dashboard();
+					goToDashboard();
 				}}
 			>
 				Search books
 			</button>
-
+			<button onClick={goToProfile} className='smallerButton'>
+				Profile
+			</button>
 			<button onClick={logout} className='smallerButton'>
 				Logout
 			</button>
 			<section className='libraryInfo'>
-				<PageCounter props={books} />
+				<h4>Page Counter: {countPages(books)}</h4>
 				<div className='filters'>
 					<input
 						type='checkbox'

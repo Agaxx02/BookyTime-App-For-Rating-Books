@@ -34,8 +34,11 @@ export default function Dashboard() {
 		});
 	};
 
-	const library = () => {
+	const goToLibrary = () => {
 		navigate('/library');
+	};
+	const goToProfile = () => {
+		navigate('/profile');
 	};
 
 	const logout = () => {
@@ -50,8 +53,11 @@ export default function Dashboard() {
 				Hello {credentials && credentials.username}!
 			</h1>
 
-			<button className='smallerButton' onClick={library}>
+			<button className='smallerButton' onClick={goToLibrary}>
 				My Library
+			</button>
+			<button className='smallerButton' onClick={goToProfile}>
+				Profile
 			</button>
 			<button onClick={logout} className='smallerButton'>
 				Logout
