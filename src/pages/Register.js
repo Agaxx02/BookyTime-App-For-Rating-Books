@@ -31,7 +31,12 @@ export default function Register() {
 		})
 			.then(handleErrors)
 			.then(() => {
-				setCredentials({ username, password });
+				setCredentials({
+					username,
+					password,
+					picture: 'https://i.ibb.co/D4j9KrG/znak-zapytania2.jpg',
+					goal: 0,
+				});
 				navigate('/dashboard');
 			})
 			.catch((error) => {

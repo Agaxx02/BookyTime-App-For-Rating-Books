@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { getBooks } from '../api/getBooks';
 import { CredentialsContext } from '../App';
 import { countPages } from '../api/countPages';
+import ChangeProfilePicture from '../components/ChangeProfilePicture';
 
 function Profile() {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
 	const [books, setBooks] = useState(null);
+	const [changePicture, setChangePicture] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		console.log(credentials);
 		async function fetchData(credentials) {
 			await getBooks(credentials).then((data) => {
 				setBooks(data);
@@ -53,17 +56,31 @@ function Profile() {
 			</section>
 			<div className='profileInfo'>
 				<img
+					className='profilePicture'
 					alt='profile '
-					src={credentials.picutre ? credentials.picture : ''}
+					src={
+						credentials.picture ||
+						'https://i.ibb.co/D4j9KrG/znak-zapytania2.jpg'
+					}
 				></img>
-				<button>Change profile picture</button>
+				<button
+					onClick={(e) => {
+						e.preventDefault();
+						setChangePicture(true);
+					}}
+				>
+					Change profile picture
+				</button>
+				{changePicture ? (
+					<ChangeProfilePicture closePopup={setChangePicture} />
+				) : null}
 				<h4>Username: {credentials.username}</h4>
 				<button>Change username</button>
 			</div>
 			<div className='statistics'></div>
 			<h4>
 				Goal for this year:
-				{credentials.goal ? credentials.goal : 'unknown'}
+				{credentials.goal ? credentials.goal : 'not stated'}
 			</h4>
 
 			<button>Change goal</button>

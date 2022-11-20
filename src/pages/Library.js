@@ -59,48 +59,52 @@ export default function Library() {
 			<button onClick={logout} className='smallerButton'>
 				Logout
 			</button>
-			<section className='libraryInfo'>
-				<h4>Page Counter: {countPages(books)}</h4>
-				<div className='filters'>
-					<input
-						type='checkbox'
-						id='finished'
-						defaultChecked
-						onChange={() => {
-							setShowFinished(!showFinished);
+			{books === undefined ? (
+				<h4>Nothing here yet, search for some books and come back</h4>
+			) : (
+				<section className='libraryInfo'>
+					<h4>Page Counter: {countPages(books)}</h4>
+					<div className='filters'>
+						<input
+							type='checkbox'
+							id='finished'
+							defaultChecked
+							onChange={() => {
+								setShowFinished(!showFinished);
+							}}
+						></input>
+						<label htmlFor='finished'>Finished</label>
+						<input
+							type='checkbox'
+							id='unfinished'
+							defaultChecked
+							onChange={() => {
+								setShowUnfinished(!showUnfinished);
+							}}
+						></input>
+						<label htmlFor='unfinished'>Unfinished</label>
+					</div>
+					<span>Sort by:</span>
+					<select
+						onChange={(e) => {
+							setSort(e.target.value);
 						}}
-					></input>
-					<label htmlFor='finished'>Finished</label>
-					<input
-						type='checkbox'
-						id='unfinished'
-						defaultChecked
-						onChange={() => {
-							setShowUnfinished(!showUnfinished);
-						}}
-					></input>
-					<label htmlFor='unfinished'>Unfinished</label>
-				</div>
-				<span>Sort by:</span>
-				<select
-					onChange={(e) => {
-						setSort(e.target.value);
-					}}
-				>
-					<option defaultValue>Highest Rate</option>
-					<option>Lowest Rate</option>
-					<option>Most Pages</option>
-					<option>Least Pages</option>
-					<option>Author A-Z</option>
-					<option>Author Z-A</option>
-					<option>Title A-Z</option>
-					<option>Title Z-A</option>
-					<option>Date Added ^</option>
-					<option>Date Added v</option>
-					<option>Date Updated ^</option>
-					<option>Date Updated v</option>
-				</select>
-			</section>
+					>
+						<option defaultValue>Highest Rate</option>
+						<option>Lowest Rate</option>
+						<option>Most Pages</option>
+						<option>Least Pages</option>
+						<option>Author A-Z</option>
+						<option>Author Z-A</option>
+						<option>Title A-Z</option>
+						<option>Title Z-A</option>
+						<option>Date Added ^</option>
+						<option>Date Added v</option>
+						<option>Date Updated ^</option>
+						<option>Date Updated v</option>
+					</select>
+				</section>
+			)}
 			{
 				<section>
 					{books

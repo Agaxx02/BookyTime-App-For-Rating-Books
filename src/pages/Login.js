@@ -24,8 +24,13 @@ export default function Login() {
 			}),
 		})
 			.then(handleErrors)
-			.then(() => {
-				setCredentials({ username, password });
+			.then((res) => {
+				setCredentials({
+					username,
+					password,
+					picture: res.picture,
+					goal: res.goal,
+				});
 				navigate('/dashboard');
 			})
 			.catch((error) => {
