@@ -18,16 +18,20 @@ function ChangeProfilePicture(props) {
 				Authorization: `Basic ${credentials.username}:${credentials.password}`,
 			},
 			body: JSON.stringify([key, value]),
-		}).then((res) => {
-			setCredentials({
-				username: res.username,
-				password: res.password,
-				picture:
-					res.picture ||
-					'https://i.ibb.co/D4j9KrG/znak-zapytania2.jpg',
-				goal: res.goal || null,
+		})
+			.then((res) => {
+				return res.json();
+			})
+			.then((data) => {
+				setCredentials({
+					username: data.username,
+					password: data.password,
+					picture:
+						data.picture ||
+						'https://i.ibb.co/D4j9KrG/znak-zapytania2.jpg',
+					goal: data.goal || null,
+				});
 			});
-		});
 	};
 
 	return (
