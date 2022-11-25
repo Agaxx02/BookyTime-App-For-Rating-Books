@@ -10,7 +10,9 @@ function Profile() {
 		CredentialsContext
 	);
 	const [books, setBooks] = useState(null);
-	const [changePicture, setChangePicture] = useState(false);
+	const [changeInfo, setChangeInfo] = useState(false);
+	const [target, setTarget] = useState('');
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -66,16 +68,28 @@ function Profile() {
 				<button
 					onClick={(e) => {
 						e.preventDefault();
-						setChangePicture(true);
+						setTarget('picture');
+						setChangeInfo(true);
 					}}
 				>
 					Change profile picture
 				</button>
-				{changePicture ? (
-					<ChangeProfilePicture closePopup={setChangePicture} />
+				{changeInfo ? (
+					<ChangeProfilePicture
+						closePopup={setChangeInfo}
+						target={target}
+					/>
 				) : null}
 				<h4>Username: {credentials.username}</h4>
-				<button>Change username</button>
+				<button
+					onClick={(e) => {
+						e.preventDefault();
+						setTarget('username');
+						setChangeInfo(true);
+					}}
+				>
+					Change username
+				</button>
 			</div>
 			<div className='statistics'></div>
 			<h4>
@@ -83,7 +97,15 @@ function Profile() {
 				{credentials.goal ? credentials.goal : 'not stated'}
 			</h4>
 
-			<button>Change goal</button>
+			<button
+				onClick={(e) => {
+					e.preventDefault();
+					setTarget('goal');
+					setChangeInfo(true);
+				}}
+			>
+				Change goal
+			</button>
 			<h4>Books read this year: </h4>
 			<h4>Books left to read this year: </h4>
 			<h4>Books read this month: </h4>
