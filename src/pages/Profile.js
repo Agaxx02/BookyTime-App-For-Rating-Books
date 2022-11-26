@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getBooks } from '../api/getBooks';
 import { CredentialsContext } from '../App';
 import { countPages } from '../api/countPages';
-import ChangeProfilePicture from '../components/ChangeProfilePicture';
+import ChangeInfoPopup from '../components/changeInfoPopup';
 
 function Profile() {
 	const [credentials, setCredentials] = useContext(
@@ -75,7 +75,7 @@ function Profile() {
 					Change profile picture
 				</button>
 				{changeInfo ? (
-					<ChangeProfilePicture
+					<ChangeInfoPopup
 						closePopup={setChangeInfo}
 						target={target}
 					/>

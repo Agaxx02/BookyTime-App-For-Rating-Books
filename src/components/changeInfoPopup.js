@@ -3,7 +3,7 @@ import { CredentialsContext } from '../App';
 import { useContext } from 'react';
 import { changeUserInfo } from '../api/changeUserInfo';
 
-function ChangeProfilePicture(props) {
+function ChangeInfoPopup(props) {
 	const [credentials, setCredentials] = useContext(
 		CredentialsContext
 	);
@@ -157,4 +157,4 @@ function ChangeProfilePicture(props) {
 	);
 }
 
-export default ChangeProfilePicture;
+export default ChangeInfoPopup;
