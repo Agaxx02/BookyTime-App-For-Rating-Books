@@ -94,7 +94,7 @@ function Profile() {
 			<div className='statistics'></div>
 			<h4>
 				Goal for this year:
-				{credentials.goal ? credentials.goal : 'not stated'}
+				{credentials.goal ? credentials.goal : ' not stated'}
 			</h4>
 
 			<button
