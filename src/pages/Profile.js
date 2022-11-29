@@ -25,6 +25,18 @@ function Profile() {
 		fetchData(credentials);
 	}, [credentials]);
 
+	const countBooks = () => {
+		let numOfBooks = 0;
+		let currentDate = new Date();
+		// books.forEach((book) => {
+		// 	let updated = new Date(book.lastUpdated);
+		// 	if (currentDate.getYear() === updated.getYear()) {
+		// 		numOfBooks++;
+		// 	}
+		// });
+		return numOfBooks;
+	};
+
 	const goToDashboard = () => {
 		navigate('/dashboard');
 	};
@@ -106,7 +118,7 @@ function Profile() {
 			>
 				Change goal
 			</button>
-			<h4>Books read this year: </h4>
+			<h4>Books read this year: {countBooks()} </h4>
 			<h4>Books left to read this year: </h4>
 			<h4>Books read this month: </h4>
 			<h4>Pages read this year: {countPages(books)}</h4>
