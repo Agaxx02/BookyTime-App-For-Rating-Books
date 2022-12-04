@@ -17,3 +17,9 @@
 ## Contributions:
 
 Any contributions / comments / suggestions are always very welcome
+
+To run it locally:
+1. Download the repository
+2. Run npm i
+3. Then run npm start 
+4. Enjoy the app 
