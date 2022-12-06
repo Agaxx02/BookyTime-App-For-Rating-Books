@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function DetailedInfo(props) {
-	console.log(props.book, typeof props.book.publish_date);
 	return (
 		<div className='popup'>
 			<div className='popup-inner book '>

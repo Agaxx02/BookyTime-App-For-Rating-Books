@@ -12,7 +12,7 @@ function ChangeInfoPopup(props) {
 
 	return (
 		<div className='popup'>
-			<div className='popup-innner'>
+			<div className='popup-inner '>
 				{props.target === 'picture' ? (
 					<ImgPick setPicture={setCurrentInput} />
 				) : (

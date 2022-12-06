@@ -12,7 +12,6 @@ function Profile() {
 	const [books, setBooks] = useState(null);
 	const [changeInfo, setChangeInfo] = useState(false);
 	const [target, setTarget] = useState('');
-
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -86,12 +85,14 @@ function Profile() {
 						'https://i.ibb.co/D4j9KrG/znak-zapytania2.jpg'
 					}
 				></img>
+				<h4>Hello, {credentials.username}!</h4>
 				<button
 					onClick={(e) => {
 						e.preventDefault();
 						setTarget('picture');
 						setChangeInfo(true);
 					}}
+					className='smallerButton'
 				>
 					Change profile picture
 				</button>
@@ -101,18 +102,19 @@ function Profile() {
 						target={target}
 					/>
 				) : null}
-				<h4>Username: {credentials.username}</h4>
 				<button
 					onClick={(e) => {
 						e.preventDefault();
 						setTarget('username');
 						setChangeInfo(true);
 					}}
+					className='smallerButton'
 				>
 					Change username
 				</button>
 			</div>
 			<div className='statistics'></div>
+			<h4>Your year in numbers</h4>
 			<h4>
 				Goal for this year:
 				{credentials.goal ? credentials.goal : ' not stated'}
@@ -124,6 +126,7 @@ function Profile() {
 					setTarget('goal');
 					setChangeInfo(true);
 				}}
+				className='smallerButton'
 			>
 				Change goal
 			</button>
