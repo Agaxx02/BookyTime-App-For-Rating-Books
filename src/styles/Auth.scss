@@ -1,0 +1,54 @@
+.authForm {
+	width: 90%;
+	margin: 5% auto 0;
+	display: block;
+	border-radius: 16px;
+	height: 50vh;
+	padding-top: 10%;
+	-webkit-box-shadow: 9px 16px 66px 8px rgba(159, 159, 255, 1);
+	-moz-box-shadow: 9px 16px 66px 8px rgba(159, 159, 255, 1);
+	box-shadow: 9px 16px 66px 8px rgba(159, 159, 255, 1);
+	font-size: 1rem;
+
+	label {
+		display: block;
+		font-size: clamp(15px, 0.2rem, 1.5rem);
+		margin: 10px;
+	}
+	input {
+		width: clamp(200px, 200px, 250px);
+		border: 2px solid rgb(189, 182, 182);
+	}
+	button {
+		position: relative;
+		bottom: -25px;
+		width: clamp(150px, 8vw, 15vw);
+	}
+}
+.registerMessage {
+	display: block;
+	font-size: 1.25rem;
+	margin: 10px 10px 15px 10px;
+	font-weight: 200;
+}
+
+.errorMessage {
+	@extend .registerMessage;
+	color: #ff0000;
+	font-weight: 400;
+}
+@media (min-width: 600px) {
+	.authForm {
+		width: 35%;
+		padding-top: 30px;
+		label {
+			font-size: clamp(20px, 0.3rem, 1.5rem);
+		}
+		input {
+			margin: 8px;
+		}
+		button {
+			margin-top: 10px;
+		}
+	}
+}

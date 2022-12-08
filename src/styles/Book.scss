@@ -1,0 +1,76 @@
+.book {
+	padding: 20px 0 20px 20px;
+	margin: 5px 0;
+	border-bottom: 1px solid black;
+	display: grid;
+	grid-template-columns: [cover] 25% [info] 45% [editButtons] 30%;
+	grid-template-areas: 'cover info editButtons';
+	.cover {
+		grid-area: cover;
+		width: 100%;
+		margin: 0 auto;
+	}
+	.info {
+		grid-area: info;
+		h4 {
+			font-size: 0.7rem;
+			margin: 2px 0 2px 20px;
+			text-align: start;
+		}
+	}
+	.editButtons {
+		grid-area: editButtons;
+		margin: 0 auto;
+		button {
+			margin: 3px;
+			width: 70px;
+			display: block;
+		}
+	}
+}
+.dashboard .book {
+	.moreInfo {
+		display: block;
+		h2 {
+			font-size: 0.8rem;
+			margin: 2%;
+			text-align: start;
+		}
+	}
+}
+@media (min-width: 600px) {
+	.dashboard {
+		img {
+			border: 1px solid black;
+			max-height: 300px;
+		}
+		label,
+		input {
+			display: inline-block;
+			margin: 0 3px;
+		}
+		button {
+			display: inline-block;
+		}
+	}
+	.book {
+		padding: 20px;
+		margin: 0 auto 10px;
+		min-height: 150px;
+		width: 60%;
+		border: 1px solid black;
+		.cover {
+			width: 100px;
+		}
+		.info {
+			h4 {
+				font-size: 0.9rem;
+			}
+		}
+		.editButtons {
+			button {
+				margin: 10px;
+			}
+		}
+	}
+}

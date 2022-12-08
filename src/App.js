@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import './App.scss';
+import './styles/Auth.scss';
+import './styles/App.scss';
+import './styles/Buttons.scss';
+import './styles/Images.scss';
+import './styles/Popups.scss';
+import './styles/Book.scss';
 import Login from './pages/Login';
 import Welcome from './pages/Welcome';
 import Register from './pages/Register';
