@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles/Auth.scss';
+import './styles/Welcome.scss';
 import './styles/App.scss';
 import './styles/Buttons.scss';
 import './styles/Images.scss';

@@ -38,7 +38,34 @@
 		}
 	}
 }
+.dashboard {
+	label,
+	input {
+		display: inline-block;
+		margin: 0 3px;
+	}
+}
+
+.filters {
+	margin: 0 auto 10px;
+}
+
 @media (min-width: 600px) {
+	.link {
+		font: {
+			size: clamp(0.5rem, 1.1rem, 2rem);
+			weight: 500;
+		}
+		display: block;
+		margin: 3vh auto 0;
+		align-items: center;
+		width: clamp(150px, 8vw, 15vw);
+	}
+
+	.libraryInfo {
+		margin-bottom: 30px;
+	}
+
 	.dashboard {
 		img {
 			border: 1px solid black;
