@@ -9,7 +9,7 @@ export default function SearchResults(props) {
 	const [currentBook, setCurrentBook] = useState({});
 
 	const addBook = (currentBook) => {
-		if (books === undefined || books === null || books === []) {
+		if (books === undefined || books === null) {
 			setBooks(
 				[currentBook],
 				updateBooks(currentBook, props.credentials)

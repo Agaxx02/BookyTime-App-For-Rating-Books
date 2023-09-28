@@ -17,7 +17,20 @@ export default function Register() {
 		if (username.length > 15) {
 			setError('Username cannot be longer than 15 characters');
 			return;
+		} else if (password !== confirmPassword) {
+			setError('Passwords are not the same');
+			return;
+		} else if (
+			password.length < 8 ||
+			password.toLowerCase() === password
+		) {
+			setError(
+				'Password has to be at least 8 characters long and contain at least one uppercase letter'
+			);
+
+			return;
 		}
+
 		fetch(`${BASE_URL}/register/registerUser`, {
 			method: 'POST',
 			headers: {
@@ -26,7 +39,6 @@ export default function Register() {
 			body: JSON.stringify({
 				username,
 				password,
-				confirmPassword,
 			}),
 		})
 			.then(handleErrors)
